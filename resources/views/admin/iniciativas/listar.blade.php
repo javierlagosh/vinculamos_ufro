@@ -111,7 +111,7 @@
                                             <th>Nombre</th>
                                             <th>Mecanismo</th>
                                             <th>Año</th>
-                                            <th>Departamento</th>
+                                            <th>Escuelas</th>
                                             <th>Carreras</th>
                                             <th>Estado</th>
                                             <th>Fecha de creación</th>
