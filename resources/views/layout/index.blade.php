@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="{{ asset('/css/custom.css') }}">
 
                                                                     {{-- TODO: IMAGEN DE LA PESTAÑA --}}
-    <link rel='shortcut icon' type='image/x-icon' href='{{ asset('/img/icono2_ufro.png') }}' />
+    <link rel='shortcut icon' type='image/x-icon' href={{ '/img/icono2_ufro.jpg' }} />
 
 </head>
 
