@@ -239,7 +239,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-4 col-md-4 col-lg-3">
+                                {{-- <div class="col-4 col-md-4 col-lg-3">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Escuela</label> <label for=""
                                             style="color: red;">*</label>
@@ -256,10 +256,10 @@
 
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-2 div-col-md-2 col-lg-3">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Carreras</label> <label for=""
+                                        <label style="font-size: 110%">Institutos</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="carreras" name="carreras"
                                             style="width: 100%">
@@ -351,8 +351,8 @@
                                             <div class="table-responsive">
                                                 <table class="table table-bored table-md">
                                                     <thead>
-                                                        <th>Escuelas</th>
-                                                        <th>Carreras</th>
+                                                        {{-- <th>Escuelas</th> --}}
+                                                        <th>Institutos</th>
                                                         <th>Estudiantes</th>
                                                         <th>Docentes</th>
                                                         <th>Funcionarios/as</th>
@@ -948,7 +948,6 @@
                         // }
                         // <td>${registro.pain_total}</td>
                         fila = `<tr>
-                                    <td>${registro.escu_nombre}</td>
                                     <td>${registro.care_nombre}</td>
                                     <td>${registro.pain_estudiantes}</td>
                                     <td>${registro.pain_docentes}</td>

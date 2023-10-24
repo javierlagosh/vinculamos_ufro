@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/reset.password.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/estilos.css') }}">
-    <link rel='shortcut icon' type='image/x-icon' href={{ '/img/logo_solo_sin_fondo.png' }} />
+    <link rel='shortcut icon' type='image/x-icon' href={{ '/img/icono2_ufro.jpg' }} />
     {{-- Logito de la pestaña --}}
 
 </head>
@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center" style="border-radius: 50px; margin: 0 auto; margin-top:5%;">
-                        <img src={{ '/img/logo_texto.png' }} alt="Imagen" class="img-fluid">
+                        <img src={{ '/img/logo_ufro.png' }} alt="Imagen" class="img-fluid">
                     </div>
                 </div>
             </div>

@@ -111,8 +111,8 @@
                                             <th>Nombre</th>
                                             <th>Mecanismo</th>
                                             <th>Año</th>
-                                            <th>Escuelas</th>
-                                            <th>Carreras</th>
+                                            {{-- <th>Escuelas</th> --}}
+                                            <th>Institutos</th>
                                             <th>Estado</th>
                                             <th>Fecha de creación</th>
                                             <th style="width: 250px">Acciones</th>
@@ -124,7 +124,7 @@
                                                 <td>{{ $iniciativa->inic_nombre }}</td>
                                                 <td>{{ $iniciativa->meca_nombre }}</td>
                                                 <td>{{ $iniciativa->inic_anho }}</td>
-                                                <td>
+                                                {{-- <td>
                                                     @php
                                                         $escuelasArray = explode(',', $iniciativa->escuelas);
                                                     @endphp
@@ -133,14 +133,14 @@
                                                     @else
                                                         {{ $iniciativa->escuelas }}
                                                     @endif
-                                                </td>
+                                                </td> --}}
                                                 {{-- <td>{{ $iniciativa->carreras }}</td> --}}
                                                 <td>
                                                     @php
                                                         $carrerasArray = explode(',', $iniciativa->carreras);
                                                     @endphp
                                                     @if (count($carrerasArray) > 29)
-                                                        Todas
+                                                        Todos
                                                     @else
                                                         {{ $iniciativa->carreras }}
                                                     @endif

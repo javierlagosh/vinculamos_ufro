@@ -46,10 +46,10 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h4>Listado de Carreras</h4>
+                            <h4>Listado de institutos</h4>
                             <div class="card-header-action">
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#modalCrearCarrera"><i class="fas fa-plus"></i> Nueva Carrera</button>
+                                    data-target="#modalCrearCarrera"><i class="fas fa-plus"></i> Nuevo instituto</button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -79,7 +79,7 @@
                                                         data-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
                                                     <a href="javascript:void(0)" class="btn btn-icon btn-danger"
                                                         onclick="eliminarCare({{ $care->care_codigo }})"
-                                                        data-toggle="tooltip" data-placement="top" title="Eliminar care"><i
+                                                        data-toggle="tooltip" data-placement="top" title="Eliminar"><i
                                                             class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
@@ -100,7 +100,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEditarCarrera">Editar carrera</h5>
+                        <h5 class="modal-title" id="modalEditarCarrera">Editar instituto</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -111,7 +111,7 @@
                             @csrf
 
                             <div class="form-group">
-                                <label>Nombre de la carrera</label>
+                                <label>Nombre del instituto</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -123,14 +123,14 @@
                                 </div>
                             </div>
                             {{-- <div class="form-group">
-                            <label>Descripción de la carrera</label>
+                            <label>Descripción de la instituto</label>
                             <div class="input-group">
                                 <textarea rows="6" class="formbold-form-input" id="care_descripcion" name="care_descripcion" autocomplete="off"
                                     style="width:100%">{{ $care->care_descripcion }}</textarea>
                             </div>
                         </div> --}}
                             {{-- <div class="form-group">
-                            <label>Jefe/Jefa de la carrera</label>
+                            <label>Jefe/Jefa de la instituto</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -153,7 +153,7 @@
                                     value="{{ $care->care_institucion }}" autocomplete="off">
                             </div>
                         </div> --}}
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label>Departamento</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -170,8 +170,8 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class="row">
+                            </div> --}}
+                            {{-- <div class="row">
                                 <div class="col-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label>Meta Estudiantes</label>
@@ -207,8 +207,8 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                            </div> --}}
+                            {{-- <div class="row">
                                 <div class="col-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label>Meta socios/as Comunitarios/as</label>
@@ -244,7 +244,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row">
                                 <div class="col-6 col-md-6 col-lg-6">
                                     <div class="form-group">
@@ -281,7 +281,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="formModal">Nueva Carrera</h5>
+                    <h5 class="modal-title" id="formModal">Nuevo instituto</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -290,7 +290,7 @@
                     <form action="{{ route('admin.crear.carreras') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label>Nombre de la carrera</label>
+                            <label>Nombre del instituto</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -312,7 +312,7 @@
                         </div>
 
                         {{-- <div class="form-group">
-                            <label>Descripción de la carrera</label>
+                            <label>Descripción de la instituto</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                 </div>
@@ -330,7 +330,7 @@
                             </div>
                         </div> --}}
                         {{-- <div class="form-group">
-                            <label>Jefe/Jefa de la carrera</label>
+                            <label>Jefe/Jefa de la instituto</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -371,7 +371,7 @@
                                 @endif
                             </div>
                         </div> --}}
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Departamento</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -395,8 +395,8 @@
                                     </div>
                                 @endif
                             </div>
-                        </div>
-                        <div class="row">
+                        </div> --}}
+                        {{-- <div class="row">
                             <div class="col-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <label>Meta Estudiantes</label>
@@ -432,8 +432,8 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+                        </div> --}}
+                        {{-- <div class="row">
                             <div class="col-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <label>Meta socios/as Comunitarios/as</label>
@@ -469,9 +469,9 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row">
-                            <div class="col-6 col-md-6 col-lg-6">
+                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                                 <div class="form-group">
                                     <label>Meta Iniciativas</label>
                                     <div class="input-group">
@@ -508,14 +508,14 @@
                     @method('DELETE')
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEliminar">Eliminar Carrera</h5>
+                        <h5 class="modal-title" id="modalEliminar">Eliminar instituto</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body text-center">
                         <i class="fas fa-ban text-danger" style="font-size: 50px; color"></i>
-                        <h6 class="mt-2">La carrera dejará de existir dentro del sistema. <br> ¿Desea continuar de todos
+                        <h6 class="mt-2">El instituto dejará de existir dentro del sistema. <br> ¿Desea continuar de todos
                             modos?</h6>
                         <input type="hidden" id="care_codigo" name="care_codigo" value="">
                     </div>

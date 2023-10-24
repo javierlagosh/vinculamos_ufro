@@ -714,20 +714,20 @@ class ParametrosController extends Controller
     {
         $verificarDrop = Carreras::where('care_codigo', $request->care_codigo)->first();
         if (!$verificarDrop) {
-            return redirect()->route('admin.listar.carreras')->with('error', 'La carrera no se encuentra registrada en el sistema.');
+            return redirect()->route('admin.listar.carreras')->with('error', 'El instituto no se encuentra registrado en el sistema.');
         }
 
         $pre_drop = ParticipantesInternos::where('care_codigo', $request->care_codigo)->first();
         if ($pre_drop) {
-            return redirect()->route('admin.listar.carreras')->with('error', 'La carrera está siendo ocupada en una iniciativa.');
+            return redirect()->route('admin.listar.carreras')->with('error', 'El instituto está siendo ocupado en una iniciativa.');
         }
 
         $Drop = Carreras::where('care_codigo', $request->care_codigo)->delete();
         if (!$Drop) {
-            return redirect()->back()->with('error', 'La carrera no se pudo eliminar, intente más tarde.');
+            return redirect()->back()->with('error', 'El instituto no se pudo eliminar, intente más tarde.');
         }
 
-        return redirect()->route('admin.listar.carreras')->with('exito', 'La carrera fue eliminada correctamente.');
+        return redirect()->route('admin.listar.carreras')->with('exito', 'El instituto fue eliminado correctamente.');
     }
 
     public function actualizarCarreras(Request $request, $care_codigo)
@@ -737,7 +737,7 @@ class ParametrosController extends Controller
 
         // Verificar si la carrera existe
         if (!$carrera) {
-            return redirect()->back()->with('error', 'La carrera no se encuentra registrada en el sistema.');
+            return redirect()->back()->with('error', 'El instituto no se encuentra registrado en el sistema.');
         }
 
         $validacion = $request->validate([
@@ -756,13 +756,15 @@ class ParametrosController extends Controller
         ]);
 
         if (!$validacion) {
-            return redirect()->back()->with('error', 'Problemas al actualizar la carrera.');
+            return redirect()->back()->with('error', 'Problemas al actualizar el instituto .');
         }
+
+        $id_escuela = Escuelas::select('escu_codigo')->where('escu_nombre', 'Escuelas')->first();
 
         // Actualizar los campos de la carrera con los valores del formulario
         $carrera->care_nombre = $request->input('care_nombre');
         $carrera->care_descripcion = $request->input('care_descripcion');
-        $carrera->escu_codigo = $request->input('escu_codigo');
+        $carrera->escu_codigo = $id_escuela->escu_codigo;
         $carrera->care_meta_estudiantes = $request->input('meta_estudiantes');
         $carrera->care_meta_docentes = $request->input('meta_docentes');
         $carrera->care_meta_soc_comunitarios = $request->input('meta_comunitarios');
@@ -772,7 +774,7 @@ class ParametrosController extends Controller
         // Guardar los cambios en la carrera
         $carrera->save();
 
-        return redirect()->back()->with('exito', 'La carrera ha sido actualizada correctamente.');
+        return redirect()->back()->with('exito', 'El instituto ha sido actualizada correctamente.');
     }
 
 
@@ -782,7 +784,7 @@ class ParametrosController extends Controller
             'care_nombre' => 'required|max:255',
             /* 'care_director' => 'required|max:100', */
             /* 'care_institucion' => 'required|max:100', */
-            'escu_codigo' => 'required',
+            /* 'escu_codigo' => 'required', */
         ], [
             'care_nombre.required' => 'El nombre es requerido.',
             'care_nombre.max' => 'El nombre excede el máximo de caracteres permitidos (255).',
@@ -790,17 +792,18 @@ class ParametrosController extends Controller
             'care_director.max' => 'El nombre del director excede el máximo de caracteres permitidos (100).', */
             /* 'care_institucion.required' => 'El nombre de la institución es requerido.',
             'care_institucion.max' => 'El nombre de la institución excede el máximo de caracteres permitidos (100).', */
-            'escu_codigo.required' => 'Seleccione una escuela.',
+            /* 'escu_codigo.required' => 'Seleccione una escuela.', */
         ]);
 
         if (!$validacion) {
-            return redirect()->route('admin.listar.escuelas')->with('error', 'Problemas al crear la carrera.');
+            return redirect()->route('admin.listar.escuelas')->with('error', 'Problemas al crear el instituto.');
         }
+        $id_escuela = Escuelas::select('escu_codigo')->where('escu_nombre', 'Escuelas')->first();
 
         $carrera = new Carreras();
         $carrera->care_nombre = $request->input('care_nombre');
         $carrera->care_descripcion = $request->input('care_descripcion');
-        $carrera->escu_codigo = $request->input('escu_codigo');
+        $carrera->escu_codigo = $id_escuela->escu_codigo;
         $carrera->care_meta_estudiantes = $request->input('meta_estudiantes');
         $carrera->care_meta_docentes = $request->input('meta_docentes');
         $carrera->care_meta_soc_comunitarios = $request->input('meta_comunitarios');
@@ -812,7 +815,7 @@ class ParametrosController extends Controller
         // Guardar la carrera en la base de datos
         $carrera->save();
 
-        return redirect()->back()->with('exito', 'Carrera creada exitosamente');
+        return redirect()->back()->with('exito', 'El instituto fue creado exitosamente');
     }
 
 

@@ -317,8 +317,8 @@
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered table-sm">
                                                             <thead>
-                                                                <th>Escuelas</th>
-                                                                <th>Carreras</th>
+                                                                {{-- <th>Escuelas</th> --}}
+                                                                <th>Institutos</th>
                                                                 <th>Docentes</th>
                                                                 <th>Docentes final</th>
                                                                 <th>Estudiantes</th>
@@ -328,7 +328,7 @@
                                                             <tbody>
                                                                 @foreach ($internos as $interno)
                                                                     <tr>
-                                                                        <td>{{ $interno->escu_nombre }}</td>
+                                                                        {{-- <td>{{ $interno->escu_nombre }}</td> --}}
                                                                         <td>{{ $interno->care_nombre }}</td>
                                                                         <td>
                                                                             @if ($interno->pain_docentes != null)

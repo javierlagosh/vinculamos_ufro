@@ -569,7 +569,7 @@ class IniciativasController extends Controller
             'inic_formato' => 'required',
             'description' => 'required',
             'carreras' => 'required',
-            'escuelas' => 'required',
+            /* 'escuelas' => 'required', */
             'mecanismos' => 'required',
             'tactividad' => 'required',
             /* 'convenio' => 'required', */
@@ -582,13 +582,15 @@ class IniciativasController extends Controller
             'inic_formato.required' => 'Es necesario que seleccione un formato para la iniciativa.',
             'description.required' => 'La Descripción es requerida.',
             'carreras.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
-            'escuelas.required' => 'Es necesario que seleccione al menos una Escuela en donde se ejecutará la iniciativa.',
+            /* 'escuelas.required' => 'Es necesario que seleccione al menos una Escuela en donde se ejecutará la iniciativa.', */
             'tactividad.required' => 'Es necesario que seleccione un tipo de actividad para la iniciativa.',
             'mecanismos.required' => 'Es necesario que seleccione un programa.',
             /* 'convenio.required' => 'Es necesario que escoja un convenio para asociar la iniciativa.', */
             'territorio.required' => 'Especifique si la iniciativa es a nivel nacional o internacional.',
             'pais.required' => 'Seleccione el país en donde se ejecutará la iniciativa.'
         ]);
+
+        $id_escuela = Escuelas::select('escu_codigo')->where('escu_nombre', 'Escuelas')->first();
 
         $inicCrear = Iniciativas::insertGetId([
             'inic_nombre' => $request->nombre,
@@ -671,22 +673,20 @@ class IniciativasController extends Controller
         $pain = [];
 
 
-
-        foreach ($escuelas as $escuela) {
-            foreach ($carreras as $carrera) {
-                $escu_carrera = Carreras::where('escu_codigo', $escuela)
-                    ->where('care_codigo', $carrera)
-                    ->exists();
-                if ($escu_carrera) {
-                    array_push($pain, [
-                        'inic_codigo' => $inic_codigo,
-                        'escu_codigo' => $escuela,
-                        'care_codigo' => $carrera,
-                    ]);
-                }
-
+        $id_escuela = Escuelas::select('escu_codigo')->where('escu_nombre', 'Escuelas')->first();
+        foreach ($carreras as $carrera) {
+            $escu_carrera = Carreras::where('escu_codigo', $id_escuela->escu_codigo)
+                ->where('care_codigo', $carrera)
+                ->exists();
+            if ($escu_carrera) {
+                array_push($pain, [
+                    'inic_codigo' => $inic_codigo,
+                    'escu_codigo' => $id_escuela->escu_codigo,
+                    'care_codigo' => $carrera,
+                ]);
             }
         }
+
 
 
         $painCrear = ParticipantesInternos::insert($pain);
@@ -775,7 +775,7 @@ class IniciativasController extends Controller
             'inic_formato' => 'required',
             'description' => 'required',
             'carreras' => 'required',
-            'escuelas' => 'required',
+            /* 'escuelas' => 'required', */
             'mecanismos' => 'required',
             'tactividad' => 'required',
             /* 'convenio' => 'required', */
@@ -788,7 +788,7 @@ class IniciativasController extends Controller
             'inic_formato.required' => 'Es necesario que seleccione un formato para la iniciativa.',
             'description.required' => 'La Descripción es requerida.',
             'carreras.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
-            'escuelas.required' => 'Es necesario que seleccione al menos una Escuela en donde se ejecutará la iniciativa.',
+            /* 'escuelas.required' => 'Es necesario que seleccione al menos una Escuela en donde se ejecutará la iniciativa.', */
             'mecanismos.required' => 'Es necesario que seleccione un programa.',
             'tactividad.required' => 'Es necesario que seleccione el tipo de actividad a realizar.',
             /* 'convenio.required' => 'Es necesario que escoja un convenio para asociar la iniciativa.', */
@@ -819,26 +819,41 @@ class IniciativasController extends Controller
         $pain = [];
         $sedes = $request->input('sedes', []);
         $escuelas = $request->input('escuelas', []);
+        $carreras = $request->input('carreras', []);
 
+        $id_sede = Sedes::select('sede_codigo')->where('sede_nombre', 'Sede Principal')->first();
+        $id_escuela = Escuelas::select('escu_codigo')->where('escu_nombre', 'Escuelas')->first();
 
+        /* $sede_escuela = SedesEscuelas::where('sede_codigo', $id_sede->sede_codigo)
+            ->where('escu_codigo', $id_escuela->escu_codigo)
+            ->exists();
+        $escuela_sede = ParticipantesInternos::where(['sede_codigo' => $id_sede->sede_codigo, 'escu_codigo' => $id_escuela->escu_codigo, 'inic_codigo' => $inic_codigo])
+            ->exists();
+        if ($sede_escuela && !$escuela_sede) {
+            array_push($pain, [
+                'inic_codigo' => $inic_codigo,
+                'sede_codigo' => $id_sede->sede_codigo,
+                'escu_codigo' => $id_escuela->escu_codigo,
+            ]);
+        } */
 
-        foreach ($sedes as $sede) {
-            foreach ($escuelas as $escuela) {
-                $sede_escuela = SedesEscuelas::where('sede_codigo', $sede)
-                    ->where('escu_codigo', $escuela)
-                    ->exists();
-                $escuela_sede = ParticipantesInternos::where(['sede_codigo' => $sede, 'escu_codigo' => $escuela, 'inic_codigo' => $inic_codigo])
-                    ->exists();
-                if ($sede_escuela && !$escuela_sede) {
-                    array_push($pain, [
-                        'inic_codigo' => $inic_codigo,
-                        'sede_codigo' => $sede,
-                        'escu_codigo' => $escuela,
-                    ]);
-                }
-
+        foreach ($carreras as $carrera) {
+            $escu_carrera = Carreras::where('escu_codigo', $id_escuela->escu_codigo)
+                ->where('care_codigo', $carrera)
+                ->exists();
+            $existe_carrera = ParticipantesInternos::where(['escu_codigo' => $id_escuela->escu_codigo, 'inic_codigo' => $inic_codigo, 'care_codigo' => $carrera])
+                ->exists();
+            if ($escu_carrera && !$existe_carrera) {
+                array_push($pain, [
+                    'inic_codigo' => $inic_codigo,
+                    'escu_codigo' => $id_escuela->escu_codigo,
+                    'care_codigo' => $carrera,
+                ]);
             }
         }
+
+
+
 
         $painCrear = ParticipantesInternos::insert($pain);
         if (!$painCrear) {
@@ -1106,16 +1121,16 @@ class IniciativasController extends Controller
 
         $seso = [];
         $sedes = $request->input('sedesT', []);
+        $id_sede = Sedes::select('sede_codigo')->where('sede_nombre', 'Sede Principal')->first();
 
-        foreach ($sedes as $sede) {
-            array_push($seso, [
-                'sede_codigo' => $sede,
-                'soco_codigo' => $soco_codigo,
-                'seso_creado' => Carbon::now()->format('Y-m-d H:i:s'),
-                'seso_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
-                'seso_rol_mod' => Session::get($rolePrefix)->rous_codigo,
-            ]);
-        }
+        array_push($seso, [
+            'sede_codigo' => $id_sede->sede_codigo,
+            'soco_codigo' => $soco_codigo,
+            'seso_creado' => Carbon::now()->format('Y-m-d H:i:s'),
+            'seso_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
+            'seso_rol_mod' => Session::get($rolePrefix)->rous_codigo,
+        ]);
+
 
         $sesoCrear = SedesSocios::insert($seso);
         if (!$sesoCrear) {
@@ -1129,7 +1144,8 @@ class IniciativasController extends Controller
 
     public function escuelasBySedesPaso2(Request $request)
     {
-        $escuelas = ParticipantesInternos::where(['sede_codigo' => $request->sedes, 'inic_codigo' => $request->inic_codigo])
+        $id_sede = Sedes::select('sede_codigo')->where('sede_nombre', 'Sede Principal')->first();
+        $escuelas = ParticipantesInternos::where(['sede_codigo' => $id_sede->sede_codigo, 'inic_codigo' => $request->inic_codigo])
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
             ->get();
         return response()->json($escuelas);
@@ -1257,7 +1273,8 @@ class IniciativasController extends Controller
     {
 
         $sedeIds = $request->input('sedes', []);
-        $escuelas = SedesEscuelas::whereIn('sede_codigo', $sedeIds)
+        $id_sede = Sedes::select('sede_codigo')->where('sede_nombre', 'Sede Principal')->first();
+        $escuelas = SedesEscuelas::whereIn('sede_codigo', $id_sede->sede_codigo)
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'sedes_escuelas.escu_codigo')
             ->select('escuelas.escu_nombre', 'escuelas.escu_codigo')
             ->distinct()

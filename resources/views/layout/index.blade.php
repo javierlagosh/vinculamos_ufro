@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="{{ asset('/css/custom.css') }}">
 
                                                                     {{-- TODO: IMAGEN DE LA PESTAÑA --}}
-    <link rel='shortcut icon' type='image/x-icon' href='{{ asset('/img/logo_solo_sin_fondo.png') }}' />
+    <link rel='shortcut icon' type='image/x-icon' href='{{ asset('/img/icono2_ufro.png') }}' />
 
 </head>
 
@@ -64,12 +64,18 @@
                 </div>
                 <ul class="navbar-nav navbar-right" style="margin-top: 0px;">
                     <div class="sidebar-brand">
-                        <a href="javascript:void(0)"> <img alt="image" src="{{ asset('/img/logo_texto_sin_bajada.png') }}" {{-- Logo esquina superior derecha --}}
-                                class="header-logo" style="transform: scale(0.12);transform-origin: right;position: fixed;
-                                top: -110px;
-                                right: 25px;" />
+                        <a href="javascript:void(0)"> <img alt="image" src="{{ asset('/img/logo_1_ufro.png') }}" {{-- Logo esquina superior derecha --}}
+                                class="header-logo" style="transform: scale(0.05);transform-origin: right;position: fixed;
+                                top: -600px;
+                                right: 250px;" />
                             <span class="logo-name" style="font-size: 15px;"></span>
                         </a>
+                        <a href="javascript:void(0)"> <img alt="image" src="{{ asset('/img/logo_2_ufro.png') }}" {{-- Logo esquina superior derecha --}}
+                            class="header-logo" style="transform: scale(0.1);transform-origin: right;position: fixed;
+                            top: -200px;
+                            right: 28px;" />
+                        <span class="logo-name" style="font-size: 15px;"></span>
+                    </a>
                     </div>
                 </ul>
             </nav>

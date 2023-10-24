@@ -211,7 +211,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-6 col-md-6 col-lg-6">
+                                {{-- <div class="col-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Escuelas</label> <label for=""
                                             style="color: red;">*</label>
@@ -247,17 +247,16 @@
                                             </div>
                                         @endif
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-6 col-lg-6">
+                                </div> --}}
+                                <div class="col-12 col-md-12 col-lg-12">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Carreras</label> <label for=""
+                                        <label style="font-size: 110%">Institutos</label> <label for=""
                                             style="color: red;">*</label><input type="checkbox" id="selectAllCarreras"
-                                            style="margin-left: 60%"> <label for="selectAllCarreras">Todas</label>
+                                            style="margin-left: 60%"> <label for="selectAllCarreras">Todos</label>
 
                                         <select class="form-control select2" multiple="" id="carreras"
                                             name="carreras[]" style="width: 100%">
                                             @if (isset($iniciativa) && $editar)
-                                                estoy aca
                                                 {{-- <select class="form-control select2" name="sedes[]" multiple id="sedes"> --}}
                                                 @forelse ($carreras as $carrera)
                                                     <option value="{{ $carrera->care_codigo }}"

@@ -99,8 +99,8 @@
                                                     <table class="table table-bordered table-md">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col">Escuela</th>
-                                                                <th scope="col">Carrera</th>
+                                                                {{-- <th scope="col">Escuela</th> --}}
+                                                                <th scope="col">Instituto</th>
                                                                 <th scope="col">Docentes inicial</th>
                                                                 <th scope="col">Docentes final</th>
                                                                 <th scope="col">Estudiantes inicial</th>
@@ -113,7 +113,7 @@
                                                             {{-- {{$resultados}} --}}
                                                             @foreach ($resultados as $resultado)
                                                                 <tr>
-                                                                    <td>{{ $resultado->escu_nombre }}</td>
+                                                                    {{-- <td>{{ $resultado->escu_nombre }}</td> --}}
                                                                     <td>{{ $resultado->care_nombre }}</td>
                                                                     <td>{{ $resultado->pain_docentes }}</td>
                                                                     <td>
