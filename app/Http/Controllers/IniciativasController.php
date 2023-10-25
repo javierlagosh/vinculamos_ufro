@@ -1252,7 +1252,7 @@ class IniciativasController extends Controller
         $actualizarInternos = ParticipantesInternos::where(
             [
                 'inic_codigo' => $request->inic_codigo,
-                'escu_codigo' => $request->escu_codigo,
+                /* 'escu_codigo' => $request->escu_codigo, */
                 'care_codigo' => $request->care_codigo
             ]
         )->update([

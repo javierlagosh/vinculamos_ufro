@@ -155,7 +155,7 @@
 
                                 <div class="col-4 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Socio/a comunitario</label> <label for=""
+                                        <label style="font-size: 110%">Socio/Cliente</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="socio" name="socio"
                                             style="width: 100%">
@@ -800,7 +800,6 @@
                 data: {
                     _token: '{{ csrf_token() }}',
                     inic_codigo: $("#idIniciativa").text(),
-                    escu_codigo: $("#escuelas").val(),
                     care_codigo: $("#carreras").val(),
                     pain_docentes: $("#ndocentes").val(),
                     pain_estudiantes: $("#nestudiantes").val(),
@@ -829,7 +828,6 @@
 
                         // <td>${registro.pain_total}</td>
                         fila = `<tr>
-                                <td>${registro.escu_nombre}</td>
                                 <td>${registro.care_nombre}</td>
                                 <td>${registro.pain_estudiantes}</td>
                                 <td>${registro.pain_docentes}</td>

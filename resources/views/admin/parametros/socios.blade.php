@@ -67,8 +67,7 @@
                             <h4>Listado de socios/clientes</h4>
                             <div class="card-header-action">
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#modalCrearSocio"><i class="fas fa-plus"></i> Nuevo socio/a
-                                    comunitario/a</button>
+                                    data-target="#modalCrearSocio"><i class="fas fa-plus"></i> Nuevo socio/cliente</button>
                             </div>
                         </div>
                         <div class="card-body">
