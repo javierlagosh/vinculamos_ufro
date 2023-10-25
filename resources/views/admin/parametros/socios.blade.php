@@ -64,7 +64,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h4>Listado de socios/as comunitarios/as</h4>
+                            <h4>Listado de socios/clientes</h4>
                             <div class="card-header-action">
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
                                     data-target="#modalCrearSocio"><i class="fas fa-plus"></i> Nuevo socio/a
@@ -77,7 +77,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Nombre del Socio/a Comunitario/a</th>
+                                            <th>Nombre del socio/cliente</th>
                                             <th>Nombre de la contraparte</th>
                                             <th>Teléfono de la contraparte</th>
                                             <th>Correo de la contraparte</th>
@@ -101,12 +101,12 @@
                                                 <td>
                                                     <a href="javascript:void(0)" class="btn btn-icon btn-warning"
                                                         onclick="editarSocio({{ $soci->soco_codigo }})"
-                                                        data-toggle="tooltip" data-placement="top" title="Editar socio"><i
+                                                        data-toggle="tooltip" data-placement="top" title="Editar"><i
                                                             class="fas fa-edit"></i></a>
                                                     <a href="javascript:void(0)" class="btn btn-icon btn-danger"
                                                         onclick="eliminarSocio({{ $soci->soco_codigo }})"
                                                         data-toggle="tooltip" data-placement="top"
-                                                        title="Eliminar socio comunitario"><i class="fas fa-trash"></i></a>
+                                                        title="Eliminar"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -126,7 +126,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modaleditarSocio">Editar socio/a comunitario/a</h5>
+                        <h5 class="modal-title" id="modaleditarSocio">Editar socio/cliente</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -137,7 +137,7 @@
                             @csrf
 
                             <div class="form-group">
-                                <label>Nombre del socio/a comunitario/a</label>
+                                <label>Nombre del socio/cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -163,7 +163,7 @@
                                     <label>Grupo de interés</label>
                                     <div class="input-group">
                                         <select class="form-control select2" style="width: 100%" id="grupo"
-                                            name="grupo" onchange="cargarSubgrupos2()">
+                                            name="grupo" onchange="cargarSubgrupos2()" required>
                                             <option value="" disabled selected>Seleccione...</option>
                                             @foreach ($grupos as $grupo)
                                                 <option value="{{ $grupo->grin_codigo }}"
@@ -184,7 +184,7 @@
                             <div class="form-group">
                                 <label>Subgrupo de interés</label>
                                 <div class="input-group">
-                                    <select class="form-control select2" style="width: 100%" id="subgrupo2" name="subgrupo">
+                                    <select class="form-control select2" style="width: 100%" id="subgrupo2" name="subgrupo" required>
                                         <option value="" disabled selected>Seleccione...</option>
                                         @foreach ($subgrupos as $subgrupo )
                                         <option value="{{ $subgrupo->sugr_codigo }}"
@@ -206,7 +206,7 @@
                                 </div>
                             </div>
                             <div class="form-group" style="">
-                                <label>Domicilio del socio/a comunitario/a</label>
+                                <label>Domicilio del socio/cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -349,7 +349,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="formModal">Nuevo socio/a comunitario/a</h5>
+                    <h5 class="modal-title" id="formModal">Nuevo socio/cliente</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -358,7 +358,7 @@
                     <form action="{{ route('admin.crear.socios') }} " method="POST">
                         @csrf
                         <div class="form-group">
-                            <label>Nombre del socio/a comunitario/a</label>
+                            <label>Nombre del socio/cliente</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -379,9 +379,9 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label>Grupo de interés</label>
+                            <label>Grupo de interés</label><label style="color: red"> *</label>
                             <div class="input-group">
-                                <select class="form-control select2" style="width: 100%" id="grupointres" name="grupo" onchange="cargarSubgrupos()">
+                                <select class="form-control select2" style="width: 100%" id="grupointres" name="grupo" onchange="cargarSubgrupos()" required>
                                     <option value="" disabled selected>Seleccione...</option>
                                     @foreach ($grupos as $grupo)
                                         <option value="{{ $grupo->grin_codigo }}">
@@ -402,9 +402,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Subgrupo de interés</label>
+                            <label>Subgrupo de interés</label><label style="color: red"> *</label>
                             <div class="input-group">
-                                <select class="form-control select2" style="width: 100%" id="subgrupo" name="subgrupo">
+                                <select class="form-control select2" style="width: 100%" id="subgrupo" name="subgrupo" required>
                                     <option value="" disabled selected>Seleccione...</option>
 
                                 </select>
@@ -421,7 +421,7 @@
                         </div>
 
                         <div class="form-group" style="">
-                            <label>Domicilio del socio/a comunitario/a</label>
+                            <label>Domicilio del socio/cliente</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -549,14 +549,14 @@
                     @method('DELETE')
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEliminar">Eliminar Socio/a Comunitario/a</h5>
+                        <h5 class="modal-title" id="modalEliminar">Eliminar socio/cliente</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body text-center">
                         <i class="fas fa-ban text-danger" style="font-size: 50px; color"></i>
-                        <h6 class="mt-2">EL/La socio/a comunitario/a dejará de existir dentro del sistema. <br> ¿Desea
+                        <h6 class="mt-2">EL/La socio/cliente dejará de existir dentro del sistema. <br> ¿Desea
                             continuar
                             de todos
                             modos?</h6>

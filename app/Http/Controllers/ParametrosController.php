@@ -744,7 +744,7 @@ class ParametrosController extends Controller
             'care_nombre' => 'required|max:255',
             /* 'care_director' => 'required|max:100', */
             /* 'care_institucion' => 'required|max:100', */
-            'escu_codigo' => 'required',
+            /* 'escu_codigo' => 'required', */
         ], [
             'care_nombre.required' => 'El nombre es requerido.',
             'care_nombre.max' => 'El nombre excede el máximo de caracteres permitidos (255).',
@@ -752,7 +752,7 @@ class ParametrosController extends Controller
             'care_director.max' => 'El nombre del director excede el máximo de caracteres permitidos (100).', */
             /* 'care_institucion.required' => 'El nombre de la institución es requerido.',
             'care_institucion.max' => 'El nombre de la institución excede el máximo de caracteres permitidos (100).', */
-            'escu_codigo.required' => 'Seleccione una escuela.',
+            /* 'escu_codigo.required' => 'Seleccione una escuela.', */
         ]);
 
         if (!$validacion) {
@@ -1006,20 +1006,20 @@ class ParametrosController extends Controller
     {
         $verificarDrop = SociosComunitarios::where('soco_codigo', $request->soco_codigo)->first();
         if (!$verificarDrop) {
-            return redirect()->route('admin.listar.socios')->with('error', 'El socio comunitario no se encuentra registrado en el sistema.');
+            return redirect()->route('admin.listar.socios')->with('error', 'El socio/cliente no se encuentra registrado en el sistema.');
         }
 
         $pre_drop = IniciativasParticipantes::where('soco_codigo', $request->soco_codigo)->first();
         if ($pre_drop) {
-            return redirect()->route('admin.listar.socios')->with('error', 'El socio comunitario está siendo ocupado en una iniciativa.');
+            return redirect()->route('admin.listar.socios')->with('error', 'El socio/cliente está siendo ocupado en una iniciativa.');
         }
 
         /* $Drop = SedesSocios::where('soco_codigo', $request->soco_codigo)->delete(); */
         $Drop = SociosComunitarios::where('soco_codigo', $request->soco_codigo)->delete();
         if (!$Drop) {
-            return redirect()->back()->with('error', 'El socio comunitario no se pudo eliminar, intente más tarde.');
+            return redirect()->back()->with('error', 'El socio/cliente no se pudo eliminar, intente más tarde.');
         }
-        return redirect()->route('admin.listar.socios')->with('exito', 'El socio comunitario fue eliminado correctamente.');
+        return redirect()->route('admin.listar.socios')->with('exito', 'El socio/cliente fue eliminado correctamente.');
     }
 
     public function actualizarSocios(Request $request, $soco_codigo)
@@ -1029,7 +1029,7 @@ class ParametrosController extends Controller
 
         // Verificar si la carrera existe
         if (!$socio) {
-            return redirect()->back()->with('error', 'El socio comunitario no se encuentra registrado en el sistema.');
+            return redirect()->back()->with('error', 'El socio/cliente no se encuentra registrado en el sistema.');
         }
 
         // Validar los campos del formulario
@@ -1037,7 +1037,8 @@ class ParametrosController extends Controller
             [
                 'nombre' => 'required|max:255',
                 'nombre_contraparte' => 'required|max:255',
-                'subgrupo' => 'required'
+                'subgrupo' => 'required',
+                'grupo' => 'required'
                 /* 'domicilio' => 'required|max:255', */
                 /* 'telefono' => 'required|max:255', */
                 /* 'email' => 'required|max:255', */
@@ -1046,19 +1047,20 @@ class ParametrosController extends Controller
 
             ],
             [
-                'nombre.required' => 'El nombre del socio comunitario es requerido.',
-                'nombre.max' => 'El nombre del socio comunitario excede el máximo de caracteres permitidos (255).',
+                'nombre.required' => 'El nombre del socio/cliente es requerido.',
+                'nombre.max' => 'El nombre del socio/cliente excede el máximo de caracteres permitidos (255).',
                 'nombre_contraparte.required' => 'El nombre de la contraparte es requerido.',
                 'nombre_contraparte.max' => 'El nombre de la contraparte excede el máximo de caracteres permitidos (255).',
-                'subgrupo.required' => 'Es necesario que seleccione un subgrupo de interés.'
+                'subgrupo.required' => 'Es necesario que seleccione un subgrupo de interés.',
+                'grupo.required' => 'Es necesario que seleccione un grupo de interés.'
                 /* 'domicilio.required' => 'El domicilio de la contraparte es requerido.',
                 'domicilio.max' => 'El domicilio de la contraparte excede el máximo de caracteres permitidos (255).',
                 'telefono.required' => 'El teléfono de la contraparte del director es requerido.',
                 'telefono.max' => 'El teléfono de la contraparte excede el máximo de caracteres permitidos (255).',
                 'email.required' => 'El email de la contraparte es requerido.',
                 'email.max' => 'El email de la contraparte excede el máximo de caracteres permitidos (255).', */
-                /* 'sedesT.required_without_all' => 'Es necesario que seleccione al menos una sede a la cual este asociada el socio comunitario.',
-                'nacional.required_without_all' => 'Es necesario que seleccione al menos una sede a la cual este asociada el socio comunitario.', */
+                /* 'sedesT.required_without_all' => 'Es necesario que seleccione al menos una sede a la cual este asociada el socio/cliente.',
+                'nacional.required_without_all' => 'Es necesario que seleccione al menos una sede a la cual este asociada el socio/cliente.', */
 
             ]
         );
@@ -1078,7 +1080,7 @@ class ParametrosController extends Controller
         ]);
 
 
-        return redirect()->back()->with('exito', 'El socio comunitario ha sido actualizado correctamente.')->withInput();
+        return redirect()->back()->with('exito', 'El socio/cliente ha sido actualizado correctamente.')->withInput();
     }
 
 
@@ -1096,8 +1098,8 @@ class ParametrosController extends Controller
 
             ],
             [
-                'nombre.required' => 'El nombre del socio comunitario es requerido.',
-                'nombre.max' => 'El nombre del socio comunitario excede el máximo de caracteres permitidos (255).',
+                'nombre.required' => 'El nombre del socio/cliente es requerido.',
+                'nombre.max' => 'El nombre del socio/cliente excede el máximo de caracteres permitidos (255).',
                 'nombre_contraparte.required' => 'El nombre de la contraparte es requerido.',
                 'nombre_contraparte.max' => 'El nombre de la contraparte excede el máximo de caracteres permitidos (255).',
                 /* 'domicilio.required' => 'El domicilio de la contraparte es requerido.',
@@ -1106,13 +1108,13 @@ class ParametrosController extends Controller
                 'telefono.max' => 'El teléfono de la contraparte excede el máximo de caracteres permitidos (255).',
                 'email.required' => 'El email de la contraparte es requerido.',
                 'email.max' => 'El email de la contraparte excede el máximo de caracteres permitidos (255).', */
-                /* 'sedesT.required_without_all' => 'Es necesario que seleccione al menos una sede a la cual este asociada el socio comunitario.',
-                'nacional.required_without_all' => 'Es necesario que seleccione al menos una sede a la cual este asociada el socio comunitario.', */
+                /* 'sedesT.required_without_all' => 'Es necesario que seleccione al menos una sede a la cual este asociada el socio/cliente.',
+                'nacional.required_without_all' => 'Es necesario que seleccione al menos una sede a la cual este asociada el socio/cliente.', */
 
             ]
         );
         if (!$validacion)
-            return redirect()->route('admin.listar.socios')->with('error', 'Problemas al crear el socio comunitario.');
+            return redirect()->route('admin.listar.socios')->with('error', 'Problemas al crear el socio/cliente.');
 
         $MacaActi = SociosComunitarios::insertGetId([
             'soco_nombre_socio' => $request->nombre,
@@ -1126,7 +1128,7 @@ class ParametrosController extends Controller
 
 
 
-        return redirect()->back()->with('socoExito', 'Se agregó el socio comunitario correctamente.')->withInput();
+        return redirect()->back()->with('socoExito', 'Se agregó el socio/cliente correctamente.')->withInput();
     }
 
 
@@ -1303,7 +1305,7 @@ class ParametrosController extends Controller
         }
         $predrop = SociosComunitarios::where('grin_codigo', $request->grin_codigo)->first();
         if ($predrop) {
-            return redirect()->route('admin.listar.grupos_int')->with('error', 'El grupo de interés está siendo ocupado en un socio comunitario.');
+            return redirect()->route('admin.listar.grupos_int')->with('error', 'El grupo de interés está siendo ocupado en un socio/cliente.');
         }
         $grupo->delete();
 
@@ -1905,7 +1907,7 @@ class ParametrosController extends Controller
 
         $predrop = SociosComunitarios::where('sugr_codigo', $request->sugr_codigo)->first();
         if ($predrop) {
-            return redirect()->route('admin.listar.subgrupos')->with('error', 'El sub-grupo de interés está siendo ocupado en un socio comunitario.');
+            return redirect()->route('admin.listar.subgrupos')->with('error', 'El sub-grupo de interés está siendo ocupado en un socio/cliente.');
         }
 
         $pre_drop = IniciativasParticipantes::where('sugr_codigo', $request->sugr_codigo)->first();
