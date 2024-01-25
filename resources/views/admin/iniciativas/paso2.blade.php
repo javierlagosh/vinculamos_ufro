@@ -20,8 +20,8 @@
     <section class="section">
         <div class="section-body">
             <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6">
+                <div class="col-xl-3"></div>
+                <div class="col-xl-6">
                     @if (Session::has('exitoPaso1'))
                         <div class="alert alert-success alert-dismissible show fade mb-4 text-center">
                             <div class="alert-body">
@@ -68,7 +68,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 col-md-12 col-lg-12">
+                <div class="col-xl-12 col-md-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
                             <h2 id="idIniciativa">{{ $iniciativa->inic_codigo }}</h2>
@@ -76,52 +76,61 @@
                             @if (isset($iniciativa))
                                 <div class="card-header-action">
                                     <div class="dropdown d-inline">
-                                        <a href="{{ route('admin.iniciativas.detalles', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-warning icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Ver detalles de la iniciativa"><i
-                                                class="fas fa-eye"></i>Ver detalle</a>
+                                        <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
+                                            data-toggle="dropdown" title="Iniciativa">
+                                            Iniciativa</button>
+                                        <div class="dropdown-menu dropright">
+                                            <a href="{{ route('admin.iniciativas.detalles', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Ver detalles de la iniciativa"><i class="fas fa-eye"></i>Ver
+                                                detalle</a>
 
-                                        {{-- <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"
+                                            <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Adjuntar evidencia"><i class="fas fa-paperclip"></i>Ajuntar
+                                                evidencias</a>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown d-inline">
+                                        <button class="btn btn-success dropdown-toggle" id="dropdownMenuButton2"
+                                            data-toggle="dropdown" title="Iniciativa">
+                                            <i class="fas fa-plus-circle"></i> Ingresar</button>
+                                        <div class="dropdown-menu dropright">
+                                            <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Ingresar cobertura"><i class="fas fa-users"></i>Ingresar
+                                                cobertura</a>
+
+                                            <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Ingresar resultado"><i class="fas fa-flag"></i>Ingresar
+                                                resultado/s</a>
+
+
+                                        </div>
+                                    </div>
+
+                                    <a href="{{ route('admin.iniciativa.listar') }}"
+                                        class="btn btn-primary mr-1 waves-effect icon-left" type="button">
+                                        <i class="fas fa-angle-left"></i> Volver a listado
+                                    </a>
+
+                                    {{-- <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"
                                             class="btn btn-icon btn-primary icon-left" data-toggle="tooltip"
                                             data-placement="top" title="Editar iniciativa"><i
                                                 class="fas fa-edit"></i>Editar Iniciativa</a> --}}
 
-                                        {{-- <a href="javascript:void(0)" class="btn btn-icon btn-info icon-left"
+                                    {{-- <a href="javascript:void(0)" class="btn btn-icon btn-info icon-left"
                                             data-toggle="tooltip" data-placement="top" title="Calcular INVI"
                                             onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
                                                 class="fas fa-tachometer-alt"></i>INVI</a> --}}
-
-                                        <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Adjuntar evidencia"><i
-                                                class="fas fa-paperclip"></i>Evidencias</a>
-
-                                        <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip" data-placement="top"
-                                            title="Ingresar cobertura"><i class="fas fa-users"></i>Cobertura</a>
-
-                                        <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Ingresar resultado"><i
-                                                class="fas fa-flag"></i>Resultado/s</a>
-
-                                        {{-- <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Evaluar iniciativa"><i
-                                                class="fas fa-file-signature"></i>Evaluar</a> --}}
-
-                                        <a href="{{ route('admin.iniciativa.listar') }}"
-                                            class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                            <i class="fas fa-angle-left"></i> Volver a listado
-                                        </a>
-                                    </div>
                                 </div>
-                                @endif
+                            @endif
                         </div>
 
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-6 col-md-6 col-lg-6">
+                                <div class="col-xl-6 col-md-6 col-lg-6">
                                     <h5>Sección 2 - Participantes externos</h5>
                                 </div>
                             </div>
@@ -153,7 +162,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4 col-md-4 col-lg-4">
+                                <div class="col-xl-4 col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Socio/Cliente</label> <label for=""
                                             style="color: red;">*</label>
@@ -180,7 +189,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-2 col-md-2 col-lg-2">
+                                <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Personas beneficiarias</label>
                                         <input type="number" class="form-control" id="npersonas" name="npersonas"
@@ -198,7 +207,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-2 col-md-2 col-lg-2" style="position: relative;">
+                                <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
 
                                     <button style="position: absolute; top: 52%; transform: translateY(-50%);"
                                         class="btn btn-primary mr-1 waves-effect"
@@ -209,8 +218,8 @@
 
                             </div>
                             <div class="row">
-                                <div class="col-2"></div>
-                                <div class="col-8">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-8">
                                     <div class="card">
                                         <div class="card-body p-0">
                                             <div class="table-responsive">
@@ -234,7 +243,7 @@
 
 
                             <div class="row">
-                                <div class="col-6 col-md-6 col-lg-6">
+                                <div class="col-xl-6 col-md-6 col-lg-6">
                                     <h5>Sección 3 - Participantes internos</h5>
                                 </div>
                             </div>
@@ -257,7 +266,7 @@
                                         </select>
                                     </div>
                                 </div> --}}
-                                <div class="col-2 div-col-md-2 col-lg-3">
+                                <div class="col-xl-3 div-col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Institutos</label> <label for=""
                                             style="color: red;">*</label>
@@ -274,7 +283,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-2 col-md-2 col-lg-2">
+                                <div class="col-xl-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Estudiantes</label> <label for=""
                                             style="color: red;">*</label>
@@ -293,7 +302,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-2 col-md-2 col-lg-2">
+                                <div class="col-xl-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Docentes</label> <label for=""
                                             style="color: red;">*</label>
@@ -311,7 +320,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-2 col-md-2 col-lg-2">
+                                <div class="col-xl-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Funcionarios/as</label> <label for=""
                                             style="color: red;">*</label>
@@ -331,8 +340,8 @@
                                 </div>
                             </div>
                             <div class="row" style="text-align: ">
-                                <div class="col-4"></div>
-                                <div class="col-4">
+                                <div class="col-xl-4"></div>
+                                <div class="col-xl-4">
 
                                     <button style="position: absolute; top: 50%;width: 70%;left: 15%;"
                                         onclick="modificar()" class="btn btn-primary mr-1 waves-effect"><i
@@ -344,8 +353,8 @@
                             </div>
 
                             <div class="row" style="margin-top:75px">
-                                <div class="col-2"></div>
-                                <div class="col-8">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-8">
                                     <div class="card">
                                         <div class="card-body p-0">
                                             <div class="table-responsive">
@@ -369,10 +378,10 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-6 col-md-6 col-lg-6">
+                                <div class="col-xl-8 col-md-8 col-lg-8">
                                     <h6>Resultados esperados</h6>
                                     <div class="row mt-3">
-                                        <div class="col-3 col-md-3 col-lg-3">
+                                        <div class="col-xl-4 col-md-4 col-lg-4">
                                             <div class="form-group">
                                                 <label>Cuantificación</label> <label for=""
                                                     style="color: red;">*</label>
@@ -380,7 +389,7 @@
                                                     name="cuantificacion" autocomplete="off" min="0">
                                             </div>
                                         </div>
-                                        <div class="col-7 col-md-7 col-lg-7">
+                                        <div class="col-xl-4 col-md-4 col-lg-4">
                                             <div class="form-group">
                                                 <label>Resultado esperado</label> <label for=""
                                                     style="color: red;">*</label>
@@ -388,12 +397,11 @@
                                                     name="resultado" autocomplete="off">
                                             </div>
                                         </div>
-                                        <div class="col-2 col-md-2 col-lg-2" style="position: relative;">
-                                            <button style="position: absolute; top: 50%; transform: translateY(-50%);"
-                                                type="button" class="btn btn-primary waves-effect"
+                                        <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
+                                            <button type="button" class="btn btn-primary waves-effect"
                                                 onclick="agregarResultado()"><i class="fas fa-plus"></i></button>
                                         </div>
-                                        <div class="col-12 col-md-12 col-lg-12 text-center" id="div-alert-resultado">
+                                        <div class="col-xl-12 col-md-12 col-lg-12 text-center" id="div-alert-resultado">
                                         </div>
                                     </div>
                                     <div class="card" id="card-tabla-resultados" style="display: none;">
@@ -417,7 +425,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-12 col-md-12 col-log-12">
+                                <div class="col-xl-12 col-md-12 col-log-12">
                                     <div class="text-right">
                                         <strong>
                                             <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"

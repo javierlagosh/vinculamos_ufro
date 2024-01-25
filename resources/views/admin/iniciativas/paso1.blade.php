@@ -21,8 +21,8 @@
         <div class="section-body">
 
             <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6">
+                <div class="col-xl-3"></div>
+                <div class="col-xl-6">
                     @if (Session::has('errorPaso1'))
                         <div class="alert alert-danger alert-dismissible show fade mb-4 text-center">
                             <div class="alert-body">
@@ -35,54 +35,66 @@
             </div>
 
             <div class="row">
-                <div class="col-12 col-md-12 col-lg-12">
+                <div class="col-xl-12 col-md-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>Sección 1 - Antecedentes generales</h4>
                             @if (isset($iniciativa) && $editar)
                                 <div class="card-header-action">
                                     <div class="dropdown d-inline">
-                                        <a href="{{ route('admin.iniciativas.detalles', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-warning icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Ver detalles de la iniciativa"><i
-                                                class="fas fa-eye"></i>Ver detalle</a>
+                                        <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
+                                            data-toggle="dropdown" title="Iniciativa">
+                                            Iniciativa</button>
+                                        <div class="dropdown-menu dropright">
+                                            <a href="{{ route('admin.iniciativas.detalles', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Ver detalles de la iniciativa"><i class="fas fa-eye"></i>Ver
+                                                detalle</a>
 
-                                        {{-- <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"
+                                            <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Adjuntar evidencia"><i class="fas fa-paperclip"></i>Ajuntar
+                                                evidencias</a>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown d-inline">
+                                        <button class="btn btn-success dropdown-toggle" id="dropdownMenuButton2"
+                                            data-toggle="dropdown" title="Iniciativa">
+                                            <i class="fas fa-plus-circle"></i> Ingresar</button>
+                                        <div class="dropdown-menu dropright">
+                                            <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Ingresar cobertura"><i class="fas fa-users"></i>Ingresar cobertura</a>
+
+                                            <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Ingresar resultado"><i class="fas fa-flag"></i>Ingresar resultado/s</a>
+
+
+                                        </div>
+                                    </div>
+
+                                    <a href="{{ route('admin.iniciativa.listar') }}"
+                                        class="btn btn-primary mr-1 waves-effect icon-left" type="button">
+                                        <i class="fas fa-angle-left"></i> Volver a listado
+                                    </a>
+
+                                    {{-- <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"
                                             class="btn btn-icon btn-primary icon-left" data-toggle="tooltip"
                                             data-placement="top" title="Editar iniciativa"><i
                                                 class="fas fa-edit"></i>Editar Iniciativa</a> --}}
 
-                                        {{-- <a href="javascript:void(0)" class="btn btn-icon btn-info icon-left"
+                                    {{-- <a href="javascript:void(0)" class="btn btn-icon btn-info icon-left"
                                             data-toggle="tooltip" data-placement="top" title="Calcular INVI"
                                             onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
                                                 class="fas fa-tachometer-alt"></i>INVI</a> --}}
 
-                                        <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Adjuntar evidencia"><i
-                                                class="fas fa-paperclip"></i>Evidencias</a>
 
-                                        <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip" data-placement="top"
-                                            title="Ingresar cobertura"><i class="fas fa-users"></i>Cobertura</a>
 
-                                        <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Ingresar resultado"><i
-                                                class="fas fa-flag"></i>Resultado/s</a>
 
-                                        {{-- <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Evaluar iniciativa"><i
-                                                class="fas fa-file-signature"></i>Evaluar</a> --}}
 
-                                        <a href="{{ route('admin.iniciativa.listar') }}"
-                                            class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                            <i class="fas fa-angle-left"></i> Volver a listado
-                                        </a>
-                                    </div>
                                 </div>
-                                @endif
+                            @endif
                         </div>
                         <div class="card-body">
                             @if (isset($iniciativa) && $editar)
@@ -90,12 +102,12 @@
                                     method="POST">
                                     @method('PUT')
                                     @csrf
-                                    @else
+                                @else
                                     <form action="{{ route($role . '.paso1.verificar') }}" method="POST">
                                         @csrf
                             @endif
                             <div class="row">
-                                <div class="col-3 col-md-3 col-lg-3">
+                                <div class="col-xl-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Nombre de iniciativa</label> <label for=""
                                             style="color: red;">*</label>
@@ -117,11 +129,11 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-3 col-md-3 col-lg-3">
+                                <div class="col-xl-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Año</label> <label for=""
                                             style="color: red;">*</label>
-                                        <select class="form-control select2" id="anho" name="anho">
+                                        <select class="form-control select2" id="anho" name="anho" style="width: 100%">
                                             <option disabled selected>Seleccione...</option>
                                             @php
                                                 $selectedYear = isset($iniciativa) && $editar ? $iniciativa->inic_anho : old('anho');
@@ -145,13 +157,13 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-3 col-md-3 col-lg-3">
+                                <div class="col-xl-4 col-md-4 col-lg-4">
 
                                     <div class="form-group">
                                         <label style="font-size: 110%">Formato de implementación</label> <label
                                             for="" style="color: red;">*</label>
 
-                                        <select class="form-control select2" id="inic_formato" name="inic_formato">
+                                        <select class="form-control select2" id="inic_formato" name="inic_formato" style="width: 100%">
                                             <option disabled selected>Seleccione...</option>
                                             @if (isset($iniciativa) && $editar)
                                                 <option value="Presencial"
@@ -168,7 +180,8 @@
                                                 <option value="Presencial" {{ old('formato') == '1' ? 'selected' : '' }}>
                                                     Presencial
                                                 </option>
-                                                <option value="Online" {{ old('formato') == '2' ? 'selected' : '' }}>Online
+                                                <option value="Online" {{ old('formato') == '2' ? 'selected' : '' }}>
+                                                    Online
                                                 </option>
                                                 <option value="Mixto" {{ old('formato') == '3' ? 'selected' : '' }}>Mixto
                                                 </option>
@@ -248,7 +261,7 @@
                                         @endif
                                     </div>
                                 </div> --}}
-                                <div class="col-12 col-md-12 col-lg-12">
+                                <div class="col-xl-12 col-md-12 col-lg-12">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Institutos</label> <label for=""
                                             style="color: red;">*</label><input type="checkbox" id="selectAllCarreras"
@@ -295,7 +308,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-4 col-md-4 col-lg-4">
+                                <div class="col-xl-4 col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Mecanismo</label> <label for=""
                                             style="color: red;">*</label>
@@ -328,7 +341,7 @@
                                 </div>
 
 
-                                <div class="col-4 col-md-4 col-lg-4">
+                                <div class="col-xl-4 col-md-4 col-lg-4">
                                     <div class="form-group">
 
                                         <label style="font-size: 110%">Tipo de Actividades</label> <label for=""
@@ -367,7 +380,7 @@
                                 </div>
 
 
-                                <div class="col-4 col-md-4 col-lg-4">
+                                <div class="col-xl-4 col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Convenio</label> <label for=""
                                             style="color: red;">*</label>
@@ -411,7 +424,7 @@
                             <div class="row">
 
 
-                                <div class="col-4 col-md-4 col-lg-4">
+                                <div class="col-xl-4 col-md-4 col-lg-4">
                                     <div class="form-group" id="regiones_div">
                                         <label style="font-size: 110%">Región</label>
                                         <input type="hidden" id="territorio" name="territorio" value="nacional">
@@ -449,7 +462,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4 col-md-4 col-lg-4">
+                                <div class="col-xl-4 col-md-4 col-lg-4">
                                     <div class="form-group" id="comunas_div">
                                         <label style="font-size: 110%">Comuna</label>
                                         <select class="form-control select2" id="comuna" name="comuna[]"
@@ -488,7 +501,7 @@
 
                             </div>
                             <div class="row">
-                                <div class="col-12 col-md-12 col-lg-12">
+                                <div class="col-xl-12 col-md-12 col-lg-12">
                                     <div class="text-right">
                                         <button type="submit" class="btn btn-primary mr-1 waves-effect">Siguiente <i
                                                 class="fas fa-chevron-right"></i></button>

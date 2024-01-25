@@ -58,10 +58,13 @@
                                     <div class="col-12 col-sm-4 col-md-4 col-lg-4 mb-2 mb-sm-0">
                                         <div class="form-group">
                                             <label>Filtrar por Mecanismo</label>
-                                            <select class="form-control select2" id="mecanismo" name="mecanismo" onchange="filtrarTablaxMecanismo()">
-                                              <option value="" selected>TODOS</option>
+                                            <select class="form-control select2" id="mecanismo" name="mecanismo"
+                                                onchange="filtrarTablaxMecanismo()">
+                                                <option value="" selected>TODOS</option>
                                                 @forelse ($mecanismos as $mecanismo)
-                                                    <option value="{{ $mecanismo->meca_nombre }}" {{ Request::get('mecanismo') == $mecanismo->meca_nombre ? 'selected' : '' }}>{{ $mecanismo->meca_nombre }}</option>
+                                                    <option value="{{ $mecanismo->meca_nombre }}"
+                                                        {{ Request::get('mecanismo') == $mecanismo->meca_nombre ? 'selected' : '' }}>
+                                                        {{ $mecanismo->meca_nombre }}</option>
                                                 @empty
                                                     <option value="-1">No existen registros</option>
                                                 @endforelse
@@ -71,7 +74,8 @@
                                     <div class="col-4 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label>Filtrar por Estado</label>
-                                            <select class="form-control select2" id="filtro1" name="filtro1" onchange="filtrarTablaxMecanismo()">
+                                            <select class="form-control select2" id="filtro1" name="filtro1"
+                                                onchange="filtrarTablaxMecanismo()">
                                                 <option value="" selected>TODOS</option>
                                                 <option value="1">En revisión</option>
                                                 <option value="2">En ejecución</option>
@@ -85,10 +89,13 @@
                                     <div class="col-12 col-sm-4 col-md-4 col-lg-4 mb-2 mb-sm-0">
                                         <div class="form-group">
                                             <label>Filtrar por Año</label>
-                                            <select class="form-control select2" id="ano" name="ano" onchange="filtrarTablaxMecanismo()">
-                                               <option value="" selected>TODOS</option>
+                                            <select class="form-control select2" id="ano" name="ano"
+                                                onchange="filtrarTablaxMecanismo()">
+                                                <option value="" selected>TODOS</option>
                                                 @forelse ($anhos as $ann)
-                                                    <option value="{{ $ann->inic_anho }}" {{ Request::get('mecanismo') == $ann->inic_anho ? 'selected' : '' }}>{{ $ann->inic_anho }}</option>
+                                                    <option value="{{ $ann->inic_anho }}"
+                                                        {{ Request::get('mecanismo') == $ann->inic_anho ? 'selected' : '' }}>
+                                                        {{ $ann->inic_anho }}</option>
                                                 @empty
                                                     <option value="-1">No existen registros</option>
                                                 @endforelse
@@ -97,7 +104,9 @@
                                     </div>
                                     <div class="col-12 col-sm-4 col-md-4 col-lg-4">
                                         <div class="mb-4">
-                                            <a href="{{ route($role . '.iniciativa.listar') }}" type="button" class="btn btn-primary mr-1 waves-effect"><i class="fas fa-broom"></i> Limpiar</a>
+                                            <a href="{{ route($role . '.iniciativa.listar') }}" type="button"
+                                                class="btn btn-primary mr-1 waves-effect"><i class="fas fa-broom"></i>
+                                                Limpiar</a>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +129,9 @@
                                     </thead>
                                     <tbody id="tabla-iniciativas">
                                         @foreach ($iniciativas as $iniciativa)
-                                            <tr data-meca="{{ $iniciativa->meca_nombre }}" data-ano="{{ $iniciativa->inic_anho }}" data-filtro1="{{ $iniciativa->inic_estado }}">
+                                            <tr data-meca="{{ $iniciativa->meca_nombre }}"
+                                                data-ano="{{ $iniciativa->inic_anho }}"
+                                                data-filtro1="{{ $iniciativa->inic_estado }}">
                                                 <td>{{ $iniciativa->inic_nombre }}</td>
                                                 <td>{{ $iniciativa->meca_nombre }}</td>
                                                 <td>{{ $iniciativa->inic_anho }}</td>
@@ -182,28 +193,34 @@
                                                                 data-toggle="tooltip" data-placement="top"
                                                                 title="Eliminar">Eliminar Iniciativa<i
                                                                     class="fas fa-trash"></i></a>
+
+                                                            <a href="{{ route($role . '.iniciativas.detalles', $iniciativa->inic_codigo) }}"
+                                                                class="dropdown-item has-icon" data-toggle="tooltip"
+                                                                data-placement="top" title="Ver detalles"><i
+                                                                    class="fas fa-eye"></i>Ver detalles</a>
+                                                            <a href="{{ route($role . '.evidencias.listar', $iniciativa->inic_codigo) }}"
+                                                                class="dropdown-item has-icon" data-toggle="tooltip"
+                                                                data-placement="top" title="Adjuntar evidencia"><i
+                                                                    class="fas fa-paperclip"></i>Adjuntar evidencia</a>
                                                         </div>
                                                     </div>
 
-                                                    <a href="{{ route($role . '.iniciativas.detalles', $iniciativa->inic_codigo) }}"
-                                                        class="btn btn-icon btn-warning" data-toggle="tooltip"
-                                                        data-placement="top" title="Ver detalles"><i
-                                                            class="fas fa-eye"></i></a>
-
-
-                                                    <a href="{{ route($role . '.evidencias.listar', $iniciativa->inic_codigo) }}"
-                                                        class="btn btn-icon btn-warning" data-toggle="tooltip"
-                                                        data-placement="top" title="Adjuntar evidencia"><i
-                                                            class="fas fa-paperclip"></i></a>
-
-                                                    <a href="{{ route($role . '.cobertura.index', $iniciativa->inic_codigo) }}"
-                                                        class="btn btn-icon btn-success" data-toggle="tooltip"
-                                                        data-placement="top" title="Ingresar cobertura"><i
-                                                            class="fas fa-users"></i></a>
-                                                    <a href="{{ route($role . '.resultados.listado', $iniciativa->inic_codigo) }}"
-                                                        class="btn btn-icon btn-success" data-toggle="tooltip"
-                                                        data-placement="top" title="Ingresar resultado"><i
-                                                            class="fas fa-flag"></i></a>
+                                                    <div class="dropdown d-inline">
+                                                        <button class="btn btn-primary dropdown-toggle"
+                                                        id="dropdownMenuButton2" data-toggle="dropdown" title="Ingresar">
+                                                        <i class="fas fa-plus-circle"></i> Ingresar
+                                                        </button>
+                                                        <div class="dropdown-menu dropright">
+                                                            <a href="{{ route($role . '.cobertura.index', $iniciativa->inic_codigo) }}"
+                                                                class="dropdown-item has-icon" data-toggle="tooltip"
+                                                                data-placement="top" title="Ingresar cobertura"><i
+                                                                    class="fas fa-users"></i> Ingresar cobertura</a>
+                                                            <a href="{{ route($role . '.resultados.listado', $iniciativa->inic_codigo) }}"
+                                                                class="dropdown-item has-icon" data-toggle="tooltip"
+                                                                data-placement="top" title="Ingresar resultado"><i
+                                                                    class="fas fa-flag"></i> Ingresar resultado</a>
+                                                        </div>
+                                                    </div>
 
                                                     {{-- <a href="" class="btn btn-icon btn-success" data-toggle="tooltip"
                                                         data-placement="top" title="Ingresar resultado"><i
@@ -212,7 +229,6 @@
                                                     <a href="" class="btn btn-icon btn-success" data-toggle="tooltip"
                                                         data-placement="top" title="Evaluar iniciativa"><i
                                                             class="fas fa-file-signature"></i></a> --}}
-
 
                                                 </td>
                                             </tr>
@@ -255,16 +271,16 @@
         </div>
     </div>
     <script>
-        window.onload = function () {
-        // Inicializar tabla
-        filtrarTabla();
+        window.onload = function() {
+            // Inicializar tabla
+            filtrarTabla();
 
-        // Agregar listeners para cada filtro
-        const mecanismoSelect = document.getElementById('mecanismo');
-        mecanismoSelect.addEventListener('change', filtrarTabla);
+            // Agregar listeners para cada filtro
+            const mecanismoSelect = document.getElementById('mecanismo');
+            mecanismoSelect.addEventListener('change', filtrarTabla);
 
-        const estadoSelect = document.getElementById('estado');
-        estadoSelect.addEventListener('change', filtrarTabla);
+            const estadoSelect = document.getElementById('estado');
+            estadoSelect.addEventListener('change', filtrarTabla);
         };
 
         function eliminarIniciativa(inic_codigo) {
@@ -276,7 +292,9 @@
         function filtrarTablaxMecanismo() {
             const selectElement = document.querySelector('select[name="table-1_length"]');
             selectElement.selectedIndex = 3;
-            const changeEvent = new Event('change', { bubbles: true });
+            const changeEvent = new Event('change', {
+                bubbles: true
+            });
             selectElement.dispatchEvent(changeEvent);
             const mecaSeleccionado = document.getElementById('mecanismo').value;
             const anoSeleccionado = document.getElementById('ano').value;
@@ -284,7 +302,7 @@
             const filasTabla = document.querySelectorAll('#tabla-iniciativas tr');
 
 
-            filasTabla.forEach(function (fila) {
+            filasTabla.forEach(function(fila) {
                 const mecaFila = fila.getAttribute('data-meca');
                 const anoFila = fila.getAttribute('data-ano');
                 const filtro1Fila = fila.getAttribute('data-filtro1');
@@ -298,13 +316,12 @@
                 } else {
                     fila.style.display = 'none'; // Ocultar la fila
                 }
-                if (mecaSeleccionado === '' && anoSeleccionado === '' && filtro1Seleccionado === '' ) {
+                if (mecaSeleccionado === '' && anoSeleccionado === '' && filtro1Seleccionado === '') {
                     selectElement.selectedIndex = 0;
                     selectElement.dispatchEvent(changeEvent);
                     fila.style.display = 'table-row';
                 }
             });
-            }
-
+        }
     </script>
 @endsection
