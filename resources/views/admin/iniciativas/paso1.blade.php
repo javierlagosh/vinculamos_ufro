@@ -88,11 +88,6 @@
                                             data-toggle="tooltip" data-placement="top" title="Calcular INVI"
                                             onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
                                                 class="fas fa-tachometer-alt"></i>INVI</a> --}}
-
-
-
-
-
                                 </div>
                             @endif
                         </div>

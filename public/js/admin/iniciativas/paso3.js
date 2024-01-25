@@ -50,8 +50,8 @@ function cargarRecursos() {
                     else totalExterno = totalExterno+parseInt(registro.suma_rrhh);
                 });
             }
-            $('#empresa-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 3 }).format(totalEmpresa));
-            $('#externo-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 3 }).format(totalExterno));
+            $('#empresa-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 12 }).format(totalEmpresa));
+            $('#externo-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 12 }).format(totalExterno));
         },
         error: function(error) {
             console.log(error);
@@ -90,8 +90,8 @@ function cargarDinero() {
                     else totalExterno = totalExterno+parseInt(registro.suma_dinero);
                 });
             }
-            $('#empresadinero').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 3 }).format(totalEmpresa));
-            $('#externodinero').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 3 }).format(totalExterno));
+            $('#empresadinero').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 12 }).format(totalEmpresa));
+            $('#externodinero').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 12 }).format(totalExterno));
         },
         error: function(error) {
             console.log(error);
@@ -129,8 +129,8 @@ function cargarInfraestructura() {
                     else totalExterno = totalExterno+parseInt(registro.suma_infraestructura);
                 });
             }
-            $('#empresa-infra-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 3 }).format(totalEmpresa));
-            $('#externo-infra-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 3 }).format(totalExterno));
+            $('#empresa-infra-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 12 }).format(totalEmpresa));
+            $('#externo-infra-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 12 }).format(totalExterno));
         },
         error: function(error) {
             console.log(error);
@@ -167,8 +167,8 @@ function cargarRrhh() {
                     else totalExterno = totalExterno+parseInt(registro.suma_rrhh);
                 });
             }
-            $('#empresa-rrhh-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 3 }).format(totalEmpresa));
-            $('#externo-rrhh-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 3 }).format(totalExterno));
+            $('#empresa-rrhh-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 12 }).format(totalEmpresa));
+            $('#externo-rrhh-total').text('$'+new Intl.NumberFormat('es-CL', { maximumSignificantDigits: 12 }).format(totalExterno));
         },
         error: function(error) {
             console.log(error);

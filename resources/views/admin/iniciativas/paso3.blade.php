@@ -227,12 +227,10 @@
                                             <div class="row">
                                                 <div class="col-xl-12 col-md-12 col-lg-12 text-center">
                                                     <input type="number" class="form-control" id="aporteexterno"
-                                                        name="aporteexterno"
-                                                        style="display: inline-block; margin-right: 5px;"
-                                                        autocomplete="off">
+                                                        name="aporteexterno" style="width: 5cm" autocomplete="off">
                                                     <div class="mt-2">
                                                         <button type="button" class="btn btn-icon btn-primary"
-                                                            style="float: inline-start;" onclick="guardarDinero(2)"><i
+                                                            onclick="guardarDinero(2)"><i
                                                                 class="fas fa-save"></i></button>
                                                     </div>
                                                 </div>
