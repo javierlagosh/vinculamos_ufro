@@ -829,6 +829,9 @@
                         if (registro.pain_estudiantes == null) {
                             registro.pain_estudiantes = 0
                         }
+                        if (registro.pain_funcionarios == null) {
+                            registro.pain_funcionarios = 0
+                        }
 
                         // if (registro.pain_total == null) {
                         //     registro.pain_total = 0
@@ -949,9 +952,9 @@
                         if (registro.pain_estudiantes == null) {
                             registro.pain_estudiantes = 0
                         }
-                        // if (registro.pain_total == null) {
-                        //     registro.pain_total = 0
-                        // }
+                        if (registro.pain_funcionarios == null) {
+                            registro.pain_funcionarios = 0
+                        }
                         // <td>${registro.pain_total}</td>
                         fila = `<tr>
                                     <td>${registro.care_nombre}</td>

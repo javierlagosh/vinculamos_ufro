@@ -55,15 +55,30 @@
                         <div class="card-body">
                             <form action="{{ route($role . '.iniciativa.listar') }}" method="GET">
                                 <div class="row align-items-end">
-                                    <div class="col-12 col-sm-4 col-md-4 col-lg-4 mb-2 mb-sm-0">
+                                    <div class="col-xl-3 col-sm-3 col-md-3 col-lg-3 mb-2 mb-sm-0">
+                                        <div class="form-group">
+                                            <label>Filtrar por Intitución</label>
+                                            <select class="form-control select2" style="width: 100%" id="carrera" name="carrera">
+                                                <option value="" selected>TODOS</option>
+                                                @forelse ($carreras as $carrera)
+                                                    <option value="{{ $carrera->care_nombre }}"
+                                                        {{ Request::get('carrera') == $carrera->care_nombre ? 'selected' : '' }}>
+                                                        {{ $carrera->care_nombre }}</option>
+                                                @empty
+                                                    <option value="-1">No existen registros</option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-sm-3 col-md-3 col-lg-3 mb-2 mb-sm-0">
                                         <div class="form-group">
                                             <label>Filtrar por Mecanismo</label>
-                                            <select class="form-control select2" id="mecanismo" name="mecanismo"
-                                                onchange="filtrarTablaxMecanismo()">
+                                            <select class="form-control select2" style="width: 100%" id="mecanismo" name="mecanismo">
                                                 <option value="" selected>TODOS</option>
                                                 @forelse ($mecanismos as $mecanismo)
-                                                    <option value="{{ $mecanismo->meca_nombre }}"
-                                                        {{ Request::get('mecanismo') == $mecanismo->meca_nombre ? 'selected' : '' }}>
+                                                    <option value="{{ $mecanismo->meca_codigo }}"
+                                                        {{ Request::get('mecanismo') == $mecanismo->meca_codigo ? 'selected' : '' }}>
                                                         {{ $mecanismo->meca_nombre }}</option>
                                                 @empty
                                                     <option value="-1">No existen registros</option>
@@ -71,30 +86,28 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-4 col-md-4 col-lg-4">
+                                    <div class="col-xl-3 col-sm-3 col-md-3 col-lg-3">
                                         <div class="form-group">
                                             <label>Filtrar por Estado</label>
-                                            <select class="form-control select2" id="filtro1" name="filtro1"
-                                                onchange="filtrarTablaxMecanismo()">
+                                            <select class="form-control select2" style="width: 100%" id="estado" name="estado">
                                                 <option value="" selected>TODOS</option>
-                                                <option value="1">En revisión</option>
-                                                <option value="2">En ejecución</option>
-                                                <option value="3">Aceptada</option>
-                                                <option value="4">Falta info</option>
-                                                <option value="5">Cerrada</option>
-                                                <option value="6">Finalizada</option>
+                                                <option value="1" {{ Request::get('estado') == 1 ? 'selected' : '' }}>En revisión</option>
+                                                <option value="2" {{ Request::get('estado') == 2 ? 'selected' : '' }}>En ejecución</option>
+                                                <option value="3" {{ Request::get('estado') == 3 ? 'selected' : '' }}>Aceptada</option>
+                                                <option value="4" {{ Request::get('estado') == 4 ? 'selected' : '' }}>Falta info</option>
+                                                <option value="5" {{ Request::get('estado') == 5 ? 'selected' : '' }}>Cerrada</option>
+                                                <option value="6" {{ Request::get('estado') == 6 ? 'selected' : '' }}>Finalizada</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-4 col-md-4 col-lg-4 mb-2 mb-sm-0">
+                                    <div class="col-xl-3 col-sm-3 col-md-3 col-lg-3 mb-2 mb-sm-0">
                                         <div class="form-group">
                                             <label>Filtrar por Año</label>
-                                            <select class="form-control select2" id="ano" name="ano"
-                                                onchange="filtrarTablaxMecanismo()">
+                                            <select class="form-control select2" style="width: 100%" id="anho" name="anho">
                                                 <option value="" selected>TODOS</option>
                                                 @forelse ($anhos as $ann)
                                                     <option value="{{ $ann->inic_anho }}"
-                                                        {{ Request::get('mecanismo') == $ann->inic_anho ? 'selected' : '' }}>
+                                                        {{ Request::get('anho') == $ann->inic_anho ? 'selected' : '' }}>
                                                         {{ $ann->inic_anho }}</option>
                                                 @empty
                                                     <option value="-1">No existen registros</option>
@@ -102,8 +115,11 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="col-xl-12 col-sm-12 col-md-12 col-lg-12 d-flex flex-row-reverse">
                                         <div class="mb-4">
+                                            <button type="submit" class="btn btn-warning waves-effect"
+                                                {{--  onclick="Filtro()" --}}><i class="fas fa-search"></i> Filtrar</button>
+
                                             <a href="{{ route($role . '.iniciativa.listar') }}" type="button"
                                                 class="btn btn-primary mr-1 waves-effect"><i class="fas fa-broom"></i>
                                                 Limpiar</a>
@@ -207,8 +223,9 @@
 
                                                     <div class="dropdown d-inline">
                                                         <button class="btn btn-primary dropdown-toggle"
-                                                        id="dropdownMenuButton2" data-toggle="dropdown" title="Ingresar">
-                                                        <i class="fas fa-plus-circle"></i> Ingresar
+                                                            id="dropdownMenuButton2" data-toggle="dropdown"
+                                                            title="Ingresar">
+                                                            <i class="fas fa-plus-circle"></i> Ingresar
                                                         </button>
                                                         <div class="dropdown-menu dropright">
                                                             <a href="{{ route($role . '.cobertura.index', $iniciativa->inic_codigo) }}"

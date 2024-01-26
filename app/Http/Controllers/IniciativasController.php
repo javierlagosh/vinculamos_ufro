@@ -46,30 +46,59 @@ use Illuminate\Support\Facades\Response;
 
 class IniciativasController extends Controller
 {
-    public function listarIniciativas()
+    public function listarIniciativas(Request $request)
     {
+        $mecanismo = $request->input('mecanismo');
+        $estado = $request->input('estado');
+        $anho = $request->input('anho');
+        $carrera = $request->input('carrera');
+
         $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
             ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
             ->leftjoin('carreras', 'carreras.care_codigo', 'participantes_internos.care_codigo')
-            ->leftjoin('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
+            // ->leftjoin('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
             ->select(
                 'iniciativas.inic_codigo',
                 'iniciativas.inic_nombre',
                 'iniciativas.inic_estado',
                 'iniciativas.inic_anho',
+                'iniciativas.meca_codigo',
                 'mecanismos.meca_nombre',
-                DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as escuelas'),
+                // DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as escuelas'),
                 DB::raw('GROUP_CONCAT(DISTINCT carreras.care_nombre SEPARATOR ", ") as carreras'),
-                DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
+                DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y") as inic_creado')
             )
-            ->groupBy('iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho','mecanismos.meca_nombre', 'inic_creado') // Agregamos inic_creado al GROUP BY
-            ->orderBy('inic_creado', 'desc') // Ordenar por fecha de creación formateada en orden descendente
-            ->get();
+            ->groupBy('iniciativas.meca_codigo','iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho','mecanismos.meca_nombre', 'inic_creado') // Agregamos inic_creado al GROUP BY
+            ->orderBy('inic_creado', 'desc'); // Ordenar por fecha de creación formateada en orden descendente
 
-            $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
-            $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
 
-        return view('admin.iniciativas.listar', compact('iniciativas','mecanismos','anhos'));
+        if($mecanismo != null && $mecanismo != ''){
+            $iniciativas = $iniciativas->where('iniciativas.meca_codigo',$mecanismo);
+        }
+
+        if($estado != null && $estado != ''){
+            $iniciativas = $iniciativas->where('iniciativas.inic_estado',$estado);
+        }
+
+        if($anho != null && $anho != ''){
+            $iniciativas = $iniciativas->where('iniciativas.inic_anho',$anho);
+        }
+
+        if($carrera != null && $carrera != ''){
+            $iniciativas = $iniciativas->whereIn('carreras.care_nombre',[$carrera]);
+        }
+
+        if ($carrera == null && $mecanismo == null && $anho == null) {
+            $iniciativas = $iniciativas->where('iniciativas.inic_anho', '2024');
+        }
+
+        $iniciativas = $iniciativas->get();
+
+        $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
+        $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
+        $carreras = Carreras::select('care_codigo','care_nombre')->get();
+
+        return view('admin.iniciativas.listar', compact('iniciativas','mecanismos','anhos','carreras'));
     }
 
 
@@ -824,18 +853,19 @@ class IniciativasController extends Controller
         $id_sede = Sedes::select('sede_codigo')->where('sede_nombre', 'Sede Principal')->first();
         $id_escuela = Escuelas::select('escu_codigo')->where('escu_nombre', 'Escuelas')->first();
 
-        /* $sede_escuela = SedesEscuelas::where('sede_codigo', $id_sede->sede_codigo)
-            ->where('escu_codigo', $id_escuela->escu_codigo)
-            ->exists();
-        $escuela_sede = ParticipantesInternos::where(['sede_codigo' => $id_sede->sede_codigo, 'escu_codigo' => $id_escuela->escu_codigo, 'inic_codigo' => $inic_codigo])
-            ->exists();
-        if ($sede_escuela && !$escuela_sede) {
-            array_push($pain, [
-                'inic_codigo' => $inic_codigo,
-                'sede_codigo' => $id_sede->sede_codigo,
-                'escu_codigo' => $id_escuela->escu_codigo,
-            ]);
-        } */
+        $existentes = ParticipantesInternos::where('inic_codigo',$inic_codigo)->get();
+
+        foreach($existentes as $existente){
+            $carreraExistente  = in_array($existente->care_codigo,$carreras);
+
+            if(!$carreraExistente){
+                ParticipantesInternos::where([
+                    'inic_codigo' => $inic_codigo,
+                    'care_codigo' => $existente->care_codigo,
+                ])->delete();
+            }
+        }
+
 
         foreach ($carreras as $carrera) {
             $escu_carrera = Carreras::where('escu_codigo', $id_escuela->escu_codigo)
