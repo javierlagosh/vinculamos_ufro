@@ -63,7 +63,7 @@
                                                             <input class="form-check-input" type="radio" name="ext_conocimiento_1_{{ $i }}" id="ext_conocimiento_1_{{ $i }}_75" value="75">
                                                             <label class="form-check-label" for="ext_conocimiento_1_{{ $i }}_75"> 75 % </label>
                                                         </div>
-                                                        <div class="form-check form-check-inline"> 
+                                                        <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" name="ext_conocimiento_1_{{ $i }}" id="ext_conocimiento_1_{{ $i }}_100" value="100">
                                                             <label class="form-check-label" for="ext_conocimiento_1_{{ $i }}_100"> 100 % </label>
                                                         </div>
@@ -117,7 +117,7 @@
                                                             <input class="form-check-input" type="radio" name="ext_conocimiento_2_{{ $i }}" id="ext_conocimiento_2_{{ $i }}_75" value="75">
                                                             <label class="form-check-label" for="ext_conocimiento_2_{{ $i }}_75"> 75 % </label>
                                                         </div>
-                                                        <div class="form-check form-check-inline"> 
+                                                        <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" name="ext_conocimiento_2_{{ $i }}" id="ext_conocimiento_2_{{ $i }}_100" value="100">
                                                             <label class="form-check-label" for="ext_conocimiento_2_{{ $i }}_100"> 100 % </label>
                                                         </div>
@@ -171,7 +171,7 @@
                                                             <input class="form-check-input" type="radio" name="ext_conocimiento_3_{{ $i }}" id="ext_conocimiento_3_{{ $i }}_75" value="75">
                                                             <label class="form-check-label" for="ext_conocimiento_3_{{ $i }}_75"> 75 % </label>
                                                         </div>
-                                                        <div class="form-check form-check-inline"> 
+                                                        <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" name="ext_conocimiento_3_{{ $i }}" id="ext_conocimiento_3_{{ $i }}_100" value="100">
                                                             <label class="form-check-label" for="ext_conocimiento_3_{{ $i }}_100"> 100 % </label>
                                                         </div>
@@ -192,9 +192,9 @@
 
                         <h3>CALIDAD DE LA EJECUCIÓN</h3>
                         <fieldset>
-                            <label>A continuación le pedimos que evalúe de 0 a 3 la calidad en la ejecución de la actividad, según los compromisos asumidos por la institución, en que: 
+                            <label>A continuación le pedimos que evalúe de 0 a 3 la calidad en la ejecución de la actividad, según los compromisos asumidos por el instituto, en que:
                                 <br>
-                                <br>0= no cumple. 
+                                <br>0= no cumple.
                                 <br>1= cumple mínimamente.
                                 <br>2= cumple medianamente.
                                 <br>3= cumple totalmente.
@@ -270,9 +270,9 @@
 
                         <h3>COMPETENCIA DE ESTUDIANTES</h3>
                         <fieldset>
-                            <label>Le pedimos a continuación que evalúe de 0 a 3, competencia para la ejecución de él o los estudiantes, en que: 
+                            <label>Le pedimos a continuación que evalúe de 0 a 3, competencia para la ejecución de él o los estudiantes, en que:
                                 <br>
-                                <br>0= dimensión desarrollada. 
+                                <br>0= dimensión desarrollada.
                                 <br>1= mínimamente desarrollada.
                                 <br>2= medianamente desarrollada.
                                 <br>3= completamente desarrollada.
@@ -295,17 +295,17 @@
                                                 <tr>
                                                     @if ($i === 1)
                                                     <td>
-                                                        Capacidad para ejecutar las actividades.	
+                                                        Capacidad para ejecutar las actividades.
                                                     </td>
                                                     @endif
                                                     @if ($i === 2)
                                                     <td>
-                                                        Actitud positiva para ejecutar actividades.	
+                                                        Actitud positiva para ejecutar actividades.
                                                     </td>
                                                     @endif
                                                     @if ($i === 3)
                                                     <td>
-                                                        Habilidad para resolver problemas.	
+                                                        Habilidad para resolver problemas.
                                                     </td>
                                                     @endif
                                                     <td>

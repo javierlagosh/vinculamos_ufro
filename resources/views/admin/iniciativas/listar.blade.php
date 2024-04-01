@@ -57,7 +57,7 @@
                                 <div class="row align-items-end">
                                     <div class="col-xl-3 col-sm-3 col-md-3 col-lg-3 mb-2 mb-sm-0">
                                         <div class="form-group">
-                                            <label>Filtrar por Intitución</label>
+                                            <label>Filtrar por Instituto</label>
                                             <select class="form-control select2" style="width: 100%" id="carrera" name="carrera">
                                                 <option value="" selected>TODOS</option>
                                                 @forelse ($carreras as $carrera)
