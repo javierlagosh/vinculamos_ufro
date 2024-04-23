@@ -39,6 +39,12 @@
                                             class="dropdown-item has-icon icon-left" data-toggle="tooltip" data-placement="top"
                                             title="Editar iniciativa"><i class="fas fa-edit"></i>Editar
                                             Iniciativa</a>
+                                        <a href="{{ route('admin.iniciativas.agendaods', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                                title="Revisar ODS "><i class="fas fa-recycle"></i> Agenda 2030</a>
+                                        <a href="{{ route('admin.iniciativas.pdf', $iniciativa->inic_codigo) }}"
+                                                    class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                                    title="Generar pdf con ODS "><i class="fas fa-file-pdf"></i> Generar pdf con ODS</a>
 
                                         <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
                                             class="dropdown-item has-icon icon-left" data-toggle="tooltip"
@@ -189,6 +195,131 @@
                                             <tr>
                                                 <td><strong>Convenio</strong></td>
                                                 <td>{{ $iniciativa->conv_nombre }}</td>
+                                            </tr>
+                                            <tr>
+
+                                                {{-- {{json_encode($ods_array)}} --}}
+                                                @if (count($ods_array) > 0)
+                                                    <td><strong>ODS</strong></td>
+                                                @else
+                                                @endif
+                                                <td>
+                                                @forelse ($ods_array as $ods)
+                                                <!-- Código para mostrar ODS -->
+                                                    <img src="https://cftpucv.vinculamosvm02.cl/vinculamos_v5_cftpucv/app/img/ods-{{$ods->id_ods}}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
+
+                                                {{-- <div style="display: inline-block; margin: 0; padding: 0;">
+                                                <td>
+                                                        <img src="https://cftpucv.vinculamosvm02.cl/vinculamos_v5_cftpucv/app/img/ods-{{$ods->id_ods}}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
+                                                </td>
+                                                </div> --}}
+                                                {{-- @if($ods_array->isEmpty()) --}}
+                                                @empty
+                                                    {{-- <!-- Agrega el campo oculto para almacenar la descripción de la iniciativa -->
+                                                    <input type="hidden" id="descripcion_iniciativa" value="{{ $iniciativa->inic_descripcion }}">
+
+                                                    <!-- Agrega el botón "Evaluar ODS" -->
+                                                    <button id="send-button" class="btn btn-primary mr-1 text-white mt-2">Asociar ODS</button>
+                                                    <div class="mt-3" id="fotosods"></div>
+                                                    {{-- <div type="hidden" id="ods-values"></div> --}}
+                                                    {{-- <form action="{{ route('admin.iniciativas.odsGuardar', ['inic_codigo' => $iniciativa->inic_codigo]) }}" method="POST">
+                                                        @csrf
+                                                        <button id="confirmar-ods-button" class="btn btn-success mt-2" style="display: none;">Confirmar ODS</button>
+                                                        <input type="hidden" name="ods_values[]" id="ods-hidden-field" value="">
+                                                    </form> --}}
+
+
+                                                    <!-- Agrega los elementos donde se mostrarán las imágenes y valores de ODS -->
+
+                                                    <!-- Script JavaScript -->
+                                                    {{-- <script defer>
+                                                    $(document).ready(function() {
+                                                        $('#send-button').click(function(e) {
+                                                            e.preventDefault(); // Previene el comportamiento predeterminado del formulario
+                                                            enviarMensaje();
+                                                        });
+
+                                                        $('#user-input').keydown(function(event) {
+                                                            if (event.keyCode === 13) {
+                                                                event.preventDefault();
+                                                                enviarMensaje();
+                                                            }
+                                                        });
+
+                                                        function enviarMensaje() {
+                                                            var userInput = $('#descripcion_iniciativa').val().toLowerCase();
+                                                            console.log(userInput);
+
+                                                            var inicCodigo = $('#confirmar-ods-button').data('inic-codigo');
+
+                                                            // Mostrar el mensaje del usuario en la derecha
+                                                            $('#chat-messages').append(`<div>${userInput}</div>`);
+
+                                                            // Enviar el mensaje al servidor
+                                                            $.ajax({
+                                                                url: '{{ route("admin.chat.sendMessage") }}',
+                                                                type: 'POST',
+                                                                data: {
+                                                                    '_token': '{{ csrf_token() }}',
+                                                                    'message': userInput
+                                                                },
+                                                                success: function(response) {
+                                                                    try {
+
+                                                                        var ods = response.ods;
+                                                                        // ods a array
+                                                                        var odsArray = ods.split(',');
+                                                                        // if(agregarOds){
+                                                                        //     odsArray.push('4')
+                                                                        // }
+                                                                        console.log(odsArray);
+
+                                                                        // Obtener el div donde se agregarán las fotos
+                                                                        var fotosDiv = document.getElementById("fotosods");
+
+                                                                        // Limpiar el contenido actual del div
+                                                                        fotosDiv.innerHTML = '';
+
+                                                                        // Iterar sobre el arreglo
+                                                                        odsArray.forEach(function(numero) {
+                                                                            // Crear un elemento de imagen
+                                                                            var img = document.createElement("img");
+
+                                                                            // Establecer el src con el número correspondiente
+                                                                            img.src = `https://cftpucv.vinculamosvm02.cl/vinculamos_v5_cftpucv/app/img/ods-${numero.toString().trim()}.png`;
+
+                                                                            // Establecer el ancho y alto de la imagen
+                                                                            img.width = 150;
+                                                                            img.height = 150;
+
+                                                                            // Establecer estilo para mostrar las imágenes en línea
+                                                                            img.style.display = "inline-block";
+                                                                            img.style.marginRight = "10px"; // Ajusta el margen entre las imágenes
+
+                                                                            // Agregar la imagen al div
+                                                                            fotosDiv.appendChild(img);
+
+                                                                            // Agregar el valor de la ODS al campo oculto
+                                                                            var odsHiddenInput = document.createElement("input");
+                                                                            odsHiddenInput.type = "hidden";
+                                                                            odsHiddenInput.name = "ods_values[]";
+                                                                            odsHiddenInput.value = numero.trim();
+                                                                            document.getElementById("ods-hidden-field").appendChild(odsHiddenInput);
+                                                                        });
+                                                                        $('#confirmar-ods-button').show();
+                                                                        $('#send-button').hide();
+
+                                                                        // $('#ods-input').value(odsArray.join(','))
+                                                                    } catch (error) {
+                                                                        console.error('Error al procesar la respuesta del servidor:', error);
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                    </script> --}}
+                                                @endforelse
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Ubicaciones</strong></td>

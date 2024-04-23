@@ -8,6 +8,7 @@ use App\Http\Controllers\IniciativasController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GPTController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
@@ -76,6 +77,12 @@ Route::middleware('verificar.admin')->group(function () {
     Route::post('dashboard/escuela-datos', [DashboardController::class, 'escuelasDatos']);
     Route::post('dashboard/sedes-escuelas', [DashboardController::class, 'escuelasBySedes']);
 
+    // ods
+    Route::any('admin/chat/send-message', [GPTController::class, 'sendMessage'])->name('admin.chat.sendMessage');
+    Route::any('admin/chat/revisar-objetivo', [GPTController::class, 'revisarObjetivo'])->name('admin.chat.revisarObjetivo');
+    Route::post('admin/iniciativas/{inic_codigo}/odsGuardar', [IniciativasController::class, 'saveODS'])->name('admin.iniciativas.odsGuardar');
+    Route::get('admin/iniciativas/{inic_codigo}/contribucion2030',[IniciativasController::class,'mostrarOds'])->name('admin.iniciativas.agendaods');
+    Route::get('admin/iniciativas/{inic_codigo}/pdf', [IniciativasController::class, 'mostrarPDF'])->name('admin.iniciativas.pdf');
     // TODO: inicio rutas para gestionar parametros
 
     //Ambito de COntribucion

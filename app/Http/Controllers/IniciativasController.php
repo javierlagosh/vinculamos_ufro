@@ -9,6 +9,7 @@ use App\Models\Grupos;
 use App\Models\IniciativasComunas;
 use App\Models\IniciativasEvidencias;
 use App\Models\IniciativasGrupos;
+use App\Models\pivoteOds;
 use App\Models\IniciativasPais;
 use App\Models\IniciativasParticipantes;
 use App\Models\IniciativasRegiones;
@@ -28,6 +29,8 @@ use App\Models\Carreras;
 use App\Models\Iniciativas;
 use App\Models\MecanismosActividades;
 use App\Models\Mecanismos;
+use App\Models\Ods;
+use App\Models\MetasInic;
 use App\Models\Programas;
 use App\Models\ProgramasActividades;
 use App\Models\TipoInfraestructura;
@@ -43,6 +46,7 @@ use App\Models\Comuna;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class IniciativasController extends Controller
 {
@@ -229,6 +233,8 @@ class IniciativasController extends Controller
     public function mostrarDetalles($inic_codigo)
     {
 
+        $ods = pivoteOds::select('id_ods')->where('inic_codigo', $inic_codigo)->get();
+
         $iniciativa = Iniciativas::join('convenios', 'convenios.conv_codigo', '=', 'iniciativas.conv_codigo')
             ->join('tipo_actividades', 'tipo_actividades.tiac_codigo', '=', 'iniciativas.tiac_codigo')
             ->join('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
@@ -319,6 +325,7 @@ class IniciativasController extends Controller
             'recursoInfraestructura' => $coinListar,
             'recursoRrhh' => $corhListar,
             'entidades' => $entidadesRecursos,
+            'ods_array' => $ods
         ]);
     }
 
@@ -716,7 +723,90 @@ class IniciativasController extends Controller
             }
         }
 
+        $odsValues = $request->ods_values ?? [];
+        $odsMetasValues = $request->ods_metas_values ?? [];
+        $odsMetasDescValues = $request->ods_metas_desc_values ?? [];
+        $fundamentoOds = $request->ods_fundamentos_values ?? [];
 
+        //Eliminar valores nulos de los arreglo
+        $odsValues = array_filter($odsValues, function ($value) {
+            return $value !== null;
+        });
+
+        $odsMetasValues = array_filter($odsMetasValues, function ($value) {
+            return $value !== null;
+        });
+
+        $odsMetasDescValues = array_filter($odsMetasDescValues, function ($value) {
+            return $value !== null;
+        });
+
+        $fundamentoOds = array_filter($fundamentoOds, function ($value) {
+            return $value !== null;
+        });
+
+        // Eliminar duplicados de $fundamentoOds
+        $fundamentoOds = array_unique($fundamentoOds);
+
+        // dd($request->all());
+
+        foreach ($odsValues as $ods) {
+            $idOds = Ods::where('id_ods', $ods)->value('id_ods');
+            PivoteOds::create([
+                'inic_codigo' => $inic_codigo,
+                'id_ods' => $idOds,
+            ]);
+        }
+        //contar total de elementos en el arreglo de fundamentoOds
+        $totalFundamentos = count($fundamentoOds);
+
+
+        $fundamentoOds = array_values($fundamentoOds);
+
+        for ($i = 0; $i < 100; $i++) {
+            try {
+                $fundamentosNew = explode('.', ($fundamentoOds[$i]));
+                break;
+            } catch (\Throwable $th) {
+                //
+            }
+        }
+
+        try {
+            $fundamentosNew = array_map('trim', $fundamentosNew);
+            //quitar elemento si es ""
+            foreach ($fundamentosNew as $key => $value) {
+                if ($value == "") {
+                    unset($fundamentosNew[$key]);
+                }
+
+                $fundamentosNew = array_values($fundamentosNew);
+            }
+        } catch (\Throwable $th) {
+            //
+        }
+
+        //indexar todos los arreglos para las metas
+        $odsMetasValues = array_values($odsMetasValues);
+        $odsMetasDescValues = array_values($odsMetasDescValues);
+
+
+        //TODO: QUE LOS FUNDAMENTOS SE GUARDEN EN LA DB (CREA UNA COLUMNA EN metas_inic LLAMADA 'fundamento' varchar(4096))
+        for ($i = 0; $i < count($odsMetasValues); $i++) {
+            MetasInic::create([
+                'inic_codigo' => $inic_codigo,
+                'meta_ods' => $odsMetasValues[$i],
+                'desc_meta' => $odsMetasDescValues[$i],
+                'fundamento' => $fundamentosNew[$i],
+            ]);
+        }
+
+        // foreach ($fundamentoOds as $fundamentoValue){
+        //     FundamentoInic::create([
+        //         'inic_codigo' => $inic_codigo,
+        //         'fund_ods' => $fundamentoValue
+        //     ]);
+        // }
 
         $painCrear = ParticipantesInternos::insert($pain);
         if (!$painCrear) {
@@ -1819,5 +1909,80 @@ class IniciativasController extends Controller
     public function evaluarIniciativa($inic_codigo)
     {
         return view('admin.iniciativas.evaluacion', compact('inic_codigo'));
+    }
+
+    public function mostrarOds($inic_codigo)
+    {
+        //Obtener las id para los ODS registrados en la tabla pivote_ods
+        $ods = pivoteOds::select('id_ods')->where('inic_codigo', $inic_codigo)->get();
+        //Con la ID obtener desde la tabla ODS, el nombre del ods que corresponde
+        $odsValues = Ods::select('id_ods', 'nombre_ods')->whereIn('id_ods', $ods)->get();
+
+        //Con la inic_codigo obtener el fundamento de la tabla fundamento_inic
+        // $fundamentos = FundamentoInic::select('fund_ods')->where('inic_codigo', $inic_codigo)->get();
+
+        //Con la inic_codigo obtener las metas de la tabla metas_inic
+        $metas = MetasInic::where('inic_codigo', $inic_codigo)
+            ->orderByRaw('CAST(meta_ods AS DECIMAL(10,2)) ASC')
+            ->get();
+        // dd($metas);
+
+
+
+        // dd($metas);
+        return view('admin.iniciativas.agendaods', [
+            'iniciativa' => $inic_codigo,
+            'odsValues' => $odsValues,
+            // 'fundamentos' => $fundamentos,
+            'metas' => $metas,
+        ]);
+    }
+
+    public function mostrarPDF($inic_codigo)
+    {
+
+        $iniciativa = Iniciativas::leftjoin('convenios', 'convenios.conv_codigo', '=', 'iniciativas.conv_codigo')
+            ->join('tipo_actividades', 'tipo_actividades.tiac_codigo', '=', 'iniciativas.tiac_codigo')
+            ->join('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
+            ->select(
+                'iniciativas.inic_codigo',
+                'iniciativas.inic_nombre',
+                'iniciativas.inic_descripcion',
+                'iniciativas.inic_anho',
+                'iniciativas.inic_estado',
+                'mecanismos.meca_nombre',
+                'mecanismos.meca_puntaje',
+                'tipo_actividades.tiac_nombre',
+            )
+            ->where('iniciativas.inic_codigo', $inic_codigo)
+            ->first();
+        //TODO: FIXEAR PARA QUE MUESTRE LOS ODS CORRESPONDIENTES Y NO REPETIDOS
+        $odsValues = PivoteOds::join('ods', 'pivote_ods.id_ods', '=', 'ods.id_ods')
+            ->join('metas_inic', 'metas_inic.inic_codigo', '=', 'pivote_ods.inic_codigo')
+            ->where('pivote_ods.inic_codigo', '=', $inic_codigo)
+            ->select('pivote_ods.inic_codigo', 'pivote_ods.id_ods', 'ods.nombre_ods', 'metas_inic.desc_meta', 'metas_inic.fundamento')
+            ->orderBy('pivote_ods.id_ods') // Ordenar por la columna id_ods
+            ->get()
+            ->unique('id_ods');
+        // dd($odsValues);
+
+        //Con la inic_codigo obtener el fundamento de la tabla fundamento_inic
+        // $fundamentos = FundamentoInic::select('fund_ods')->where('inic_codigo', $inic_codigo)->get();
+
+        //Con la inic_codigo obtener las metas de la tabla metas_inic
+        $metas = MetasInic::select('*')->where('inic_codigo', $inic_codigo)->get();
+        //Con la inic_codigo obtener las metas de la tabla metas_inic
+        // $metas = MetasInic::where('inic_codigo', $inic_codigo)
+        // ->orderByRaw('CAST(meta_ods AS DECIMAL(10,2)) ASC')
+        // ->get();
+
+
+
+
+
+        $pdf = Pdf::loadView('admin.iniciativas.pdf', compact('iniciativa', 'inic_codigo', 'odsValues', 'metas'));
+
+        return $pdf->stream();
+
     }
 }
