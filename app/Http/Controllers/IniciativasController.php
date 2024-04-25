@@ -1038,6 +1038,110 @@ class IniciativasController extends Controller
             IniciativasComunas::where('inic_codigo', $inic_codigo)->delete();
             return redirect()->back()->with('comuError', 'Ocurrió un error durante el registro de las comunas, intente más tarde.')->withInput();
         }
+        $odsValues = $request->ods_values ?? [];
+        $odsMetasValues = $request->ods_metas_values ?? [];
+        $odsMetasDescValues = $request->ods_metas_desc_values ?? [];
+        $fundamentoOds = $request->ods_fundamentos_values ?? [];
+
+        // Eliminar registros existentes
+
+        $odsValues = array_filter($odsValues, function ($value) {
+            return $value!==null;
+        });
+
+        $odsMetasValues = array_filter($odsMetasValues, function ($value) {
+            return $value!==null;
+        });
+
+        $odsMetasDescValues = array_filter($odsMetasDescValues, function ($value) {
+            return $value!==null;
+        });
+
+        $fundamentoOds = array_filter($fundamentoOds, function ($value) {
+            return $value!==null;
+        });
+
+        // dd($odsMetasValues);
+        //Verifica si viene en request existe el campo ods_values, ods_metas_values, ods_metas_desc_values, ods_fundamentos_values tienen valores asignados, si no los tienen no se actualizan
+        if(empty($odsValues) && empty($odsMetasValues) && empty($odsMetasDescValues) && empty($fundamentoOds)){
+        // if(empty($request->ods_values) && empty($request->ods_metas_values) && empty($request->ods_metas_desc_values) && empty($request->ods_fundamentos_values)){
+            // dd('estoy aca');
+            return redirect()->route('admin.editar.paso2', $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se actualizaron correctamente');
+        }else{
+            // dd('estoy aqui');
+
+            //Verifica si existen registros con el inic_codigo en la tabla pivote_ods y metas_inic, si existen los elimina
+
+            PivoteOds::where('inic_codigo', $inic_codigo)->delete();
+            MetasInic::where('inic_codigo', $inic_codigo)->delete();
+
+            // Eliminar duplicados de $fundamentoOds
+            $fundamentoOds = array_unique($fundamentoOds);
+
+
+            foreach ($odsValues as $ods) {
+                $idOds = Ods::where('id_ods', $ods)->value('id_ods');
+                PivoteOds::create([
+                    'inic_codigo' => $inic_codigo,
+                    'id_ods' => $idOds,
+                ]);
+            }
+            //contar total de elementos en el arreglo de fundamentoOds
+            $totalFundamentos = count($fundamentoOds);
+            try {
+                $fundamentosNew = explode('.', ($fundamentoOds[0]));
+            } catch (\Throwable $th) {
+                try {
+                    $fundamentosNew = explode('.', ($fundamentoOds[1]));
+                } catch (\Throwable $th) {
+                    try {
+                        $fundamentosNew = explode('.', ($fundamentoOds[2]));
+                    } catch (\Throwable $th) {
+                        try {
+                            $fundamentosNew = explode('.', ($fundamentoOds[3]));
+                        } catch (\Throwable $th) {
+                            try {
+                                $fundamentosNew = explode('.', ($fundamentoOds[4]));
+                            } catch (\Throwable $th) {
+                                try {
+                                    $fundamentosNew = explode('.', ($fundamentoOds[5]));
+                                } catch (\Throwable $th) {
+                                    dd('error, Contacte un administrador para obtener ayuda y crear la iniciativa');
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            $fundamentosNew = array_map('trim', $fundamentosNew);
+
+
+
+            //quitar elemento si es ""
+            foreach ($fundamentosNew as $key => $value) {
+                if ($value == "") {
+                    unset($fundamentosNew[$key]);
+                }
+            }
+
+            //indexar todos los arreglos para las metas
+            $odsMetasValues = array_values($odsMetasValues);
+            $odsMetasDescValues = array_values($odsMetasDescValues);
+            $fundamentosNew = array_values($fundamentosNew);
+
+            $metasExistentes = MetasInic::where('inic_codigo', $inic_codigo)->get();
+
+            // dd( $request->all(),$odsMetasValues, $odsMetasDescValues, $fundamentosNew, $metasExistentes);
+            for ($i = 0; $i < count($odsMetasValues); $i++) {
+                MetasInic::create([
+                    'inic_codigo' => $inic_codigo,
+                    'meta_ods' => $odsMetasValues[$i],
+                    'desc_meta' => $odsMetasDescValues[$i],
+                    'fundamento' => $fundamentosNew[$i],
+                ]);
+            }
+        }
 
         $ThisRuta = $rolePrefix . '.editar.paso2';
         return redirect()->route($ThisRuta, $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se actualizaron correctamente');
